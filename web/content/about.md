@@ -15,6 +15,6 @@ The method and its performance are described in
 [📄 Pierzyna, Basu, Saathof (2026, preprint)](https://arxiv.org/abs/2604.09346).
 
 ### Licenses and terms of use
-The OTProf data products (forecasts and climatology) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), which
+The OTProf products (forecasts and climatology) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), which
 excludes any warranty. See [Licenses](/licenses) for the full details of how you may use them, and for the third-party
 data and software they build on.

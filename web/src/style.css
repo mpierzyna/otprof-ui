@@ -629,6 +629,13 @@ html {
   color: inherit;
 }
 
+/* Below the disclaimer in the banner: where the full terms are */
+.banner .banner-more {
+  margin: 0;
+  padding: 0 14px 12px 42px;
+  font-weight: 600;
+}
+
 /* Segmented control: inset track, the selected option raised */
 .segmented {
   display: inline-flex;
@@ -853,7 +860,9 @@ option {
   color: var(--text-2);
   font-size: 13px;
 }
-.dialog-warning {
+/* The disclaimer (content/disclaimer.md) as a box: in the download dialog and on the licenses page; above the plots it
+   is the collapsible banner */
+.disclaimer-box {
   display: flex;
   gap: 10px;
   margin-bottom: 12px;
@@ -863,19 +872,22 @@ option {
   color: var(--callout-text);
   font-size: 13px;
 }
-.dialog-warning .banner-icon {
+.disclaimer-box .banner-icon {
   flex: none;
   width: 18px;
   height: 18px;
   fill: var(--callout-icon);
 }
-.dialog-warning .markdown > :first-child {
+.disclaimer-box .markdown {
+  max-width: none;
+}
+.disclaimer-box .markdown > :first-child {
   margin-top: 0;
 }
-.dialog-warning .markdown > :last-child {
+.disclaimer-box .markdown > :last-child {
   margin-bottom: 0;
 }
-.dialog-warning .markdown h3 {
+.disclaimer-box .markdown h3 {
   margin: 0 0 4px;
   font-size: 13px;
 }

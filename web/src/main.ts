@@ -464,7 +464,7 @@ async function main() {
       document.getElementById(decodeURIComponent(href.slice(1)))?.scrollIntoView({ block: "center" });
       return;
     }
-    const target = a && viewLink(href);
+    const target = a && a.getAttribute("target") !== "_blank" ? viewLink(href) : undefined; // new tab: as the browser does
     if (!target || e.ctrlKey || e.metaKey || e.shiftKey) return;
     e.preventDefault();
     history.pushState(null, "", target);

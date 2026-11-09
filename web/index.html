@@ -49,6 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><!--icon:expand--></svg>
         </summary>
         <div id="disclaimer-text" class="markdown"><!--content:disclaimer:body--></div>
+        <p class="banner-more"><a href="/licenses">Licenses and terms of use →</a></p>
       </details>
 
       <div class="workspace">
@@ -210,7 +211,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <main id="licenses-page" class="page" hidden>
       <article class="card markdown page-text">
-        <!--content:licenses-->
+        <h2><!--content:licenses:heading--></h2>
+        <div class="disclaimer-box">
+          <svg class="banner-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <!--icon:warning-->
+          </svg>
+          <div class="markdown">
+            <h3><!--content:disclaimer:heading--></h3>
+            <!--content:disclaimer:body-->
+          </div>
+        </div>
+        <!--content:licenses:body-->
         <section id="third-party" aria-label="Third-party software"></section>
       </article>
     </main>
@@ -220,7 +231,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <dialog id="download-dialog" class="dialog" aria-labelledby="download-title">
       <h2 id="download-title"><!--content:download:heading--></h2>
       <p id="download-what" class="dialog-what"></p>
-      <div class="dialog-warning">
+      <div class="disclaimer-box">
         <svg class="banner-icon" viewBox="0 0 24 24" aria-hidden="true">
           <!--icon:warning-->
         </svg>

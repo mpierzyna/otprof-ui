@@ -32,7 +32,7 @@ export function profileCsv(c: Climatology, name: string, step: number, cell: num
   ]);
   const comments = [
     about,
-    `License: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), see ${location.origin}${BASE}licenses`,
+    `License of this OTProf product: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), terms of use: ${location.origin}${BASE}licenses`,
     ...(c.meta.acknowledgement ? [c.meta.acknowledgement] : []),
   ].map((line) => `# ${line}`);
   return `${[...comments, ...[header, ...rows].map((row) => row.join(","))].join("\n")}\n`;
@@ -51,6 +51,11 @@ export class Downloads {
     this.what = document.getElementById("download-what")!;
     this.links = document.getElementById("download-links")!;
     this.dialog.addEventListener("click", (e) => e.target === this.dialog && this.dialog.close()); // backdrop
+    // Links in the texts of the dialog (e.g. to the licenses page) open in a new tab: the download stays open
+    for (const a of this.dialog.querySelectorAll<HTMLAnchorElement>(".markdown a[href], .dialog-accept a[href]")) {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
   }
 
   get isOpen() {
