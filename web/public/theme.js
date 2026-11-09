@@ -7,7 +7,7 @@
 (function () {
   var choice = null;
   try {
-    choice = localStorage.getItem("otprof-live.theme");
+    choice = localStorage.getItem("otprof-ui.theme");
   } catch (e) {}
   var dark = choice === "dark" || (choice !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.dataset.theme = dark ? "dark" : "light";

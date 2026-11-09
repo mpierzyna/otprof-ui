@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Settings and helpers of the climatology pipeline (steps 1 to 5). The steps import from here, not from each other.
-Paths: `otprof_live.config` (env vars, pipeline/.env).
+Paths: `otprof_ui.config` (env vars, pipeline/.env).
 
 `CLIM_DATA` (`OTPROF_CLIM_DATA`, default pipeline/data/climatology) holds `1_raw/` (GRIB, ERA5 zarr), `3_predictions/`
 and `4_climatology/`, ~250 GB in all. Step 5 writes the web app's climatology into `WEBUI_DATA`, the data root shared
@@ -17,7 +17,7 @@ import pandas as pd
 import xarray as xr
 from otprof.sources import Area, era5_cds
 
-from otprof_live.config import CLIM_DATA, WEBUI_DATA, logger  # noqa: F401 (used by the steps)
+from otprof_ui.config import CLIM_DATA, WEBUI_DATA, logger  # noqa: F401 (used by the steps)
 
 GRIB_DIR = CLIM_DATA / "1_raw" / "cds"
 ERA5_STORE = CLIM_DATA / "1_raw" / "era5.zarr"

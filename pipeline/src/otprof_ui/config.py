@@ -10,7 +10,7 @@
       webui/                      OTPROF_WEBUI_DATA: the web app's data root (docs/DATA_FORMAT.md), see upload.sh
 
 The variables come from the environment or from `pipeline/.env` (KEY=value lines; the environment wins). Relative paths
-are relative to `pipeline/`. Print a path for shell scripts: `uv run python -m otprof_live.config webui`.
+are relative to `pipeline/`. Print a path for shell scripts: `uv run python -m otprof_ui.config webui`.
 """
 
 import logging
@@ -18,9 +18,9 @@ import os
 import pathlib
 import sys
 
-logger = logging.getLogger("otprof-live")
+logger = logging.getLogger("otprof-ui")
 
-PIPELINE_ROOT = pathlib.Path(__file__).resolve().parents[2]  # pipeline/ (src/otprof_live/config.py)
+PIPELINE_ROOT = pathlib.Path(__file__).resolve().parents[2]  # pipeline/ (src/otprof_ui/config.py)
 ENV_FILE = PIPELINE_ROOT / ".env"
 
 

@@ -26,7 +26,7 @@ from shared import (
     logger,
 )
 
-from otprof_live.config import setup_logging
+from otprof_ui.config import setup_logging
 
 
 def get_current_cycle() -> datetime.datetime:

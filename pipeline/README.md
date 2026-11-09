@@ -4,11 +4,11 @@ SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# OTProf live pipelines
+# OTProf UI pipelines
 
 Two pipelines write the web app's data (`docs/DATA_FORMAT.md`) into one data root, and `upload.sh` publishes it to the
 web server. Both run in this uv environment (`pyproject.toml`, with the `otprof` submodule) and share the package
-`otprof_live` (`src/`): the paths (`config`), NetCDF writing (`netcdf`) and the writers of the data formats (`webui`,
+`otprof_ui` (`src/`): the paths (`config`), NetCDF writing (`netcdf`) and the writers of the data formats (`webui`,
 `webui_climatology`).
 
 ```
@@ -18,7 +18,7 @@ pipeline/
   forecast/       GFS forecast, every 6 h: run.sh = step 0 prepare, 1 download, 2 predict, 3 convert
   climatology/    ERA5 climatology, one-off: step 1 download (days), run.sh = step 2 to zarr .. step 5 convert
   systemd/        the watcher and the ERA5 download as systemd user services (not enabled by default)
-  src/otprof_live/  config.py (paths), netcdf.py, webui.py and webui_climatology.py (format writers)
+  src/otprof_ui/  config.py (paths), netcdf.py, webui.py and webui_climatology.py (format writers)
   data/           OTPROF_DATA, git-ignored
     forecast/       OTPROF_FORECAST_DATA: <cycle>/{1_raw,2_prediction}, running -> <cycle>
     climatology/    OTPROF_CLIM_DATA: 1_raw/ (GRIB, era5.zarr), 3_predictions/, 4_climatology/ (~250 GB)
@@ -27,7 +27,7 @@ pipeline/
   .rclone.conf    the upload remote (git-ignored): ./upload.sh --config
 ```
 
-The paths come from the environment or `.env` (relative to `pipeline/`); `uv run python -m otprof_live.config` prints
+The paths come from the environment or `.env` (relative to `pipeline/`); `uv run python -m otprof_ui.config` prints
 them. By default everything is below `data/`.
 
 ## Forecast (`forecast/`)

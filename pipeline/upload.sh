@@ -30,7 +30,7 @@ elif [[ $# -gt 0 ]]; then
     exit 2
 fi
 
-SRC="$(cd "${HERE}" && uv run --quiet python -m otprof_live.config webui)"
+SRC="$(cd "${HERE}" && uv run --quiet python -m otprof_ui.config webui)"
 if [[ ! -f "${CONFIG}" ]]; then
     echo "No rclone config at ${CONFIG}; run: $0 --config" >&2
     exit 1
@@ -40,7 +40,7 @@ if [[ ! -f "${SRC}/index.json" ]]; then
     exit 1
 fi
 
-# The pipelines do not write to the data root during the upload (`otprof_live.webui.data_root_lock`, the same lock)
+# The pipelines do not write to the data root during the upload (`otprof_ui.webui.data_root_lock`, the same lock)
 exec 8> "${SRC}.lock"
 flock 8
 

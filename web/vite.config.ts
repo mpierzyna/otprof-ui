@@ -16,7 +16,7 @@ import { ICONS, type IconName } from "./src/icons";
 
 // Development data (default: the pipelines' web data, pipeline/data/webui) served at /data/ by the dev and preview
 // servers only, so it never ends up in the build: in production the web server delivers it at the same path.
-const DEV_DATA = resolve(__dirname, process.env.OTPROF_LIVE_DATA ?? "../pipeline/data/webui");
+const DEV_DATA = resolve(__dirname, process.env.OTPROF_UI_DATA ?? "../pipeline/data/webui");
 const TYPES: Record<string, string> = { ".json": "application/json", ".md": "text/markdown; charset=utf-8" };
 
 function devData(): Plugin {

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// Reading the otprof-live/1 data format (docs/DATA_FORMAT.md): index, cycle metadata and the binary arrays, and the
-// climatology (otprof-live-clim/1).
+// Reading the otprof-ui-forecast/1 data format (docs/DATA_FORMAT.md): index, cycle metadata and the binary arrays,
+// and the climatology (otprof-ui-clim/1).
 
 /** Storage of an array: value = offset + scale * stored, `fill` missing (NaN for float32). */
 interface Encoding {
@@ -64,6 +64,7 @@ export interface ClimMeta extends GridMeta {
   stats: string[]; // all statistics, in the order offered
   periods?: Record<string, { utc_hour: number }>; // day, night
   downloads?: { label: string; file: string; bytes: number }[]; // the statistics as files for download (NetCDF)
+  acknowledgement?: string; // credit of the input data, in the CSV files
 }
 
 export interface Index {
@@ -73,8 +74,8 @@ export interface Index {
   climatology?: string; // directory of the climatology
 }
 
-const FORMAT = "otprof-live/1";
-const CLIM_FORMAT = "otprof-live-clim/1";
+const FORMAT = "otprof-ui-forecast/1";
+const CLIM_FORMAT = "otprof-ui-clim/1";
 const N_PARALLEL = 4;
 
 async function fetchJson<T>(url: string): Promise<T> {

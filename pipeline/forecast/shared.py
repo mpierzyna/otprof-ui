@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Settings of the forecast pipeline. Paths: `otprof_live.config` (env vars, pipeline/.env)."""
+"""Settings of the forecast pipeline. Paths: `otprof_ui.config` (env vars, pipeline/.env)."""
 
 import datetime
 
 from otprof.sources import Area
 
-from otprof_live.config import FORECAST_DATA, WEBUI_DATA, logger  # noqa: F401 (used by the steps)
-from otprof_live.netcdf import to_netcdf, to_netcdf_atomic  # noqa: F401 (used by the steps)
+from otprof_ui.config import FORECAST_DATA, WEBUI_DATA, logger  # noqa: F401 (used by the steps)
+from otprof_ui.netcdf import to_netcdf, to_netcdf_atomic  # noqa: F401 (used by the steps)
 
 RUNNING_DIR = FORECAST_DATA / "running"  # link to the run directory of the cycle in progress (step 0 .. step 3)
 

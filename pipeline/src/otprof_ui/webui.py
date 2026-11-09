@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Writers of the web app's data formats (docs/DATA_FORMAT.md): forecast cycles (`otprof-live/1`, `write_cycle`) and the
-index of a data root (`write_index`). The climatology: `webui_climatology`.
+"""Writers of the web app's data formats (docs/DATA_FORMAT.md): forecast cycles (`otprof-ui-forecast/1`,
+`write_cycle`) and the index of a data root (`write_index`). The climatology: `webui_climatology`.
 
 Values are stored as uint16 with scale and offset from their range (`quantize`), NaN as `FILL`. Each directory is
 complete once its meta.json exists (written last), and the index lists only complete directories.
@@ -19,9 +19,9 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from otprof_live.config import logger
+from otprof_ui.config import logger
 
-FORMAT = "otprof-live/1"
+FORMAT = "otprof-ui-forecast/1"
 FILL = 65535
 CLIM_DIR = "climatology"  # directory of the climatology in a data root
 

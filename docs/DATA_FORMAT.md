@@ -4,11 +4,11 @@ SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# Data format `otprof-live/1`
+# Data format `otprof-ui-forecast/1`
 
 The web app reads only static files below one data root (`dataUrl` in `web/public/config.json`, default `data/`).
 Nothing about the grid, the heights, the lead times or the variables is fixed in the app: everything comes from the
-files described here. `pipeline/src/otprof_live/webui.py` (`write_cycle`) is the reference writer.
+files described here. `pipeline/src/otprof_ui/webui.py` (`write_cycle`) is the reference writer.
 
 ```
 data/
@@ -18,15 +18,15 @@ data/
     lcn2_f000.bin ...        binary arrays (one file per lead time for variables with heights)
     r0.bin, lsi2.bin         binary arrays (all lead times in one file for variables without heights)
     notes.md                 optional notes for this cycle (see meta.json "notes")
-    otprof-live_<cycle>_EXPERIMENTAL.nc   optional, the forecast as NetCDF for download (see meta.json "download")
-  climatology/               optional climatology (format otprof-live-clim/1, see below)
+    otprof-ui_<cycle>_EXPERIMENTAL.nc   optional, the forecast as NetCDF for download (see meta.json "download")
+  climatology/               optional climatology (format otprof-ui-clim/1, see below)
 ```
 
 ## `index.json`
 
 ```json
 {
-  "format": "otprof-live/1",
+  "format": "otprof-ui-forecast/1",
   "cycles": ["2026102300", "2026102218"],
   "latest": "2026102300"
 }
@@ -41,7 +41,7 @@ data/
 
 ```json
 {
-  "format": "otprof-live/1",
+  "format": "otprof-ui-forecast/1",
   "cycle": "2026-10-23T00:00:00Z",
   "lead_hours": [0, 1, 2, 120],
   "lat": [50.25, 50.5],
@@ -49,7 +49,7 @@ data/
   "z_agl": [8.0, 26.0],
   "info": {"Model": "SQF-H (wrf_pl)", "Inputs": "GFS 0.25°", "Correction": "nl-oQM"},
   "notes": "notes.md",
-  "download": {"file": "otprof-live_2026102300_EXPERIMENTAL.nc", "bytes": 6844088},
+  "download": {"file": "otprof-ui_2026102300_EXPERIMENTAL.nc", "bytes": 6844088},
   "variables": {
     "lcn2": {
       "long_name": "log10 Cn2", "units": "log10(m^-2/3)",
@@ -77,7 +77,7 @@ data/
 | `z_agl` | heights [m above ground], increasing. Needed if any variable has the dimension `z`. |
 | `info` | optional, shown as key-value pairs in the app. |
 | `notes` | optional, file name of the markdown notes of this cycle, shown after the global notes. |
-| `download` | optional, a file of this cycle the app offers for download (`file`, size in `bytes`), after a disclaimer. The forecast pipeline writes the forecast as CF NetCDF: `lcn2` (time, z, lat, lon), `r0`, `lsi2` (time, lat, lon), float32, compressed, lcn2 rounded to 0.001, licence CC BY-SA 4.0. |
+| `download` | optional, a file of this cycle the app offers for download (`file`, size in `bytes`), after a disclaimer. The forecast pipeline writes the forecast as CF NetCDF: `lcn2` (time, z, lat, lon), `r0`, `lsi2` (time, lat, lon), float32, compressed, lcn2 rounded to 0.001, licence CC BY-SA 4.0, with the credit of the GFS data and the references in the global attributes `acknowledgement` and `references`. |
 | `variables` | the fields. The app shows them in this order. |
 
 Per variable:
@@ -98,15 +98,15 @@ Per variable:
 Arrays are C order (last dimension fastest), without header. Cells that are missing at all lead times (outside the
 domain) cannot be selected in the app.
 
-## Climatology (`otprof-live-clim/1`)
+## Climatology (`otprof-ui-clim/1`)
 
-Statistics per calendar month, written by `pipeline/src/otprof_live/webui.py` (`write_climatology`, run by `pipeline/climatology/step_5_convert_webui.py`). `climatology/meta.json` is like a cycle's
+Statistics per calendar month, written by `pipeline/src/otprof_ui/webui.py` (`write_climatology`, run by `pipeline/climatology/step_5_convert_webui.py`). `climatology/meta.json` is like a cycle's
 `meta.json` (`lat`, `lon`, `z_agl`, `info`, `notes`, `variables` with the same encoding keys), without `cycle` and
 `lead_hours`; the time slider steps through the months:
 
 ```json
 {
-  "format": "otprof-live-clim/1",
+  "format": "otprof-ui-clim/1",
   "months": [1, 2, 12],
   "hours": [0, 3, 6, 9, 12, 15, 18, 21],
   "years": [[2014], [2014], [2023]],
@@ -135,6 +135,7 @@ Statistics per calendar month, written by `pipeline/src/otprof_live/webui.py` (`
 | `years` | per month, the years in the sample (shown in the app: months from few years are less representative). |
 | `periods` | optional, statistics of one hour per day besides those of all hours (`day`, `night`): `utc_hour` the hour of `hours` used. If set, the app offers *Global*, *Day*, *Night*; see `periods` per variable. |
 | `downloads` | optional, the statistics as files for download, after a disclaimer: `label`, `file`, size in `bytes`; see below. |
+| `acknowledgement` | optional, the credit of the input data (ERA5), one line of text: the app writes it into the CSV files of profiles. |
 | `stats` | all statistics, in the order the app offers them. `median`, `mean`, `pN` (Nth percentile); `lmean` is the log10 of the mean of the linear values of a log10 variable (lcn2, lsi2; `mean` is the mean of the log10 values, the log10 of the geometric mean). The app shows `lmean` as the mean when it shows such a variable linearly (10^value); the percentiles are the same in both scales. The app needs `p5`, `p25`, `p75`, `p95` for the bands. |
 
 Per variable, in addition to the cycle keys:
@@ -155,7 +156,7 @@ Per variable, in addition to the cycle keys:
 
 ### Files for download
 
-`otprof-clim_monthly_EXPERIMENTAL.nc` and `otprof-clim_diurnal_EXPERIMENTAL.nc`, listed in `downloads`: CF NetCDF of the whole domain, compressed, licence CC BY-SA 4.0. With `lat`, `lon` and `z` (height above ground [m]) increasing:
+`otprof-clim_monthly_EXPERIMENTAL.nc` and `otprof-clim_diurnal_EXPERIMENTAL.nc`, listed in `downloads`: CF NetCDF of the whole domain, compressed, licence CC BY-SA 4.0, with the credit of the ERA5 data and the references in the global attributes `acknowledgement` and `references`. With `lat`, `lon` and `z` (height above ground [m]) increasing:
 
 | variable | monthly | diurnal |
 |---|---|---|

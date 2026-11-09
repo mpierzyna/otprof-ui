@@ -76,7 +76,7 @@ climatology pipelines, and how to upload their data to the web server, is descri
 ```sh
 cd web && npm install
 npm run dev                                       # http://localhost:5173, pipeline/data/webui served at /data/
-OTPROF_LIVE_DATA=<data dir> npm run dev           # other data
+OTPROF_UI_DATA=<data dir> npm run dev           # other data
 npm run build && npm run preview -- --host <ip>   # production build, http://<ip>:4173
 ```
 

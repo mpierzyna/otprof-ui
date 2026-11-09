@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Convert the statistics of step 4 to the web app's climatology (`otprof-live-clim/1`, docs/DATA_FORMAT.md) →
+"""Convert the statistics of step 4 to the web app's climatology (`otprof-ui-clim/1`, docs/DATA_FORMAT.md) →
 `WEBUI_DATA/climatology/`, with the statistics as NetCDF files for download, and list it in `WEBUI_DATA/index.json`.
 
 Run again whenever the statistics are recomputed. ../upload.sh publishes it with the cycles.
@@ -16,9 +16,9 @@ import sys
 import xarray as xr
 from shared import STATS_DIR, WEBUI_DATA, logger
 
-from otprof_live.config import setup_logging
-from otprof_live.webui import CLIM_DIR, data_root_lock, write_index
-from otprof_live.webui_climatology import write_climatology
+from otprof_ui.config import setup_logging
+from otprof_ui.webui import CLIM_DIR, data_root_lock, write_index
+from otprof_ui.webui_climatology import write_climatology
 
 if __name__ == "__main__":
     setup_logging()

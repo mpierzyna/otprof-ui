@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Step 3: convert the run's predictions (`2_prediction/preds.nc`) to the web app's data format `otprof-live/1`
+"""Step 3: convert the run's predictions (`2_prediction/preds.nc`) to the web app's data format `otprof-ui-forecast/1`
 (docs/DATA_FORMAT.md) → `WEBUI_DATA/<YYYYMMDDHH>/`, update `WEBUI_DATA/index.json`, and finish the run.
 
-The cycle directory also gets the forecast as NetCDF for download (`otprof-live_<YYYYMMDDHH>_EXPERIMENTAL.nc`,
+The cycle directory also gets the forecast as NetCDF for download (`otprof-ui_<YYYYMMDDHH>_EXPERIMENTAL.nc`,
 `to_download`, licence `LICENSE`): lcn2, r0 and lsi2 only (not the model's intermediate outputs), float32, compressed,
 ~7 MB instead of the 115 MB of `preds.nc`.
 
@@ -31,9 +31,9 @@ from shared import (
     to_netcdf_atomic,
 )
 
-from otprof_live.config import setup_logging
-from otprof_live.netcdf import LICENSE
-from otprof_live.webui import data_root_lock, write_cycle, write_index
+from otprof_ui.config import setup_logging
+from otprof_ui.netcdf import ARTICLE, GFS_ACKNOWLEDGEMENT, LICENSE
+from otprof_ui.webui import data_root_lock, write_cycle, write_index
 
 VARIABLES = ["lcn2", "r0", "lsi2"]  # exported, in this order (the app shows them in this order)
 KEEP_CYCLES = 8  # cycles kept in the web app (2 days of 6-hourly cycles)
@@ -91,13 +91,15 @@ def to_download(ds: xr.Dataset, cycle: pd.Timestamp, oqm: bool) -> tuple[xr.Data
         long_name="log10 scintillation index (1550 nm, plane wave, vertical path from the ground through the column)"
     )
     out.attrs = {
-        "title": "OTProf live: optical turbulence forecast",
+        "title": "OTProf forecast: optical turbulence",
         "summary": "Cn2 profiles, Fried parameter and scintillation index predicted by SQF-H from a GFS forecast",
         "source": f"SQF-H ({sqf_h.HF_REPO_ID} at {sqf_h.HF_REVISION}) on GFS 0.25° cycle {cycle:%Y-%m-%d %H} UTC"
         + (", output quantile mapping nl-oQM" if oqm else ""),
         "disclaimer": DISCLAIMER,
         "license": LICENSE,
-        "history": f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%dT%H:%M:%SZ} otprof-live, forecast/step_3_convert.py",
+        "acknowledgement": GFS_ACKNOWLEDGEMENT,
+        "references": ARTICLE,
+        "history": f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%dT%H:%M:%SZ} otprof-ui, forecast/step_3_convert.py",
         "Conventions": "CF-1.8",
     }
     chunks = (1, out.sizes["z"], out.sizes["lat"], out.sizes["lon"])  # one lead time per chunk
@@ -135,7 +137,7 @@ if __name__ == "__main__":
 
     cycle_id = f"{cycle:%Y%m%d%H}"
     nc, encoding = to_download(ds, cycle, oqm="Correction" in info)
-    download = f"otprof-live_{cycle_id}_EXPERIMENTAL.nc"
+    download = f"otprof-ui_{cycle_id}_EXPERIMENTAL.nc"
     with data_root_lock(WEBUI_DATA):
         (WEBUI_DATA / cycle_id).mkdir(parents=True, exist_ok=True)
         to_netcdf_atomic(nc, WEBUI_DATA / cycle_id / download, encoding=encoding, engine="netcdf4")

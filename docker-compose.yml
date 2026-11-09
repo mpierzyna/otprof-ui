@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# OTProf live: nginx serving the built app and the forecast data. Settings in .env (see README, Deploy).
+# OTProf UI: nginx serving the built app and the forecast data. Settings in .env (see README, Deploy).
 services:
   web:
     build: .

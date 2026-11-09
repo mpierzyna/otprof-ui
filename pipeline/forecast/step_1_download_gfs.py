@@ -21,7 +21,7 @@ from shared import (
     to_netcdf_atomic,
 )
 
-from otprof_live.config import setup_logging
+from otprof_ui.config import setup_logging
 
 if __name__ == "__main__":
     setup_logging()

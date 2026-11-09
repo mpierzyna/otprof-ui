@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Writer of the web app's climatology (`otprof-live-clim/1`, docs/DATA_FORMAT.md) from the statistics of step 4 of the
+"""Writer of the web app's climatology (`otprof-ui-clim/1`, docs/DATA_FORMAT.md) from the statistics of step 4 of the
 climatology pipeline, with the statistics as NetCDF files for download.
 
 The directory is written beside its final place (`<out>.part`, not uploaded) and swapped in when complete: an upload
@@ -17,10 +17,10 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from otprof_live.netcdf import LICENSE, to_netcdf_atomic
-from otprof_live.webui import RESOLUTION, quantize
+from otprof_ui.netcdf import ARTICLE, ERA5_REFERENCE, LICENSE, era5_acknowledgement, to_netcdf_atomic
+from otprof_ui.webui import RESOLUTION, quantize
 
-CLIM_FORMAT = "otprof-live-clim/1"
+CLIM_FORMAT = "otprof-ui-clim/1"
 CLIM_VARIABLES = ["lcn2", "r0", "lsi2"]  # exported, the app shows them in this order
 CLIM_STATS = ["median", "mean", "p5", "p25", "p75", "p95"]  # the box statistics, also those of the diurnal cycle
 # Variables stored as log10 and their linear counterparts in the statistics: they get the statistic `lmean`, the log10
@@ -211,7 +211,9 @@ def to_download(ds: xr.Dataset, kind: str, title: str) -> tuple[xr.Dataset, dict
         "sample_months": ds.attrs["months"],
         "disclaimer": DISCLAIMER,
         "license": LICENSE,
-        "history": f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%dT%H:%M:%SZ} otprof-live, climatology/step_5_convert_webui.py",
+        "acknowledgement": era5_acknowledgement(pd.Timestamp.now(tz="UTC").year),
+        "references": f"{ARTICLE}; {ERA5_REFERENCE}",
+        "history": f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%dT%H:%M:%SZ} otprof-ui, climatology/step_5_convert_webui.py",
         "Conventions": "CF-1.8",
     }
     encoding = {}
@@ -265,6 +267,7 @@ def write_climatology(
             **({"Correction": "nl-oQM"} if monthly.attrs.get("otprof_oqm") else {}),
             "Sample": f"{len(months)} months, {min(months)} to {max(months)}",
         },
+        "acknowledgement": era5_acknowledgement(pd.Timestamp.now(tz="UTC").year),  # in the web app's CSV files
         "downloads": write_downloads({"monthly": monthly, "diurnal": diurnal}, part),
         "variables": variables,
     }

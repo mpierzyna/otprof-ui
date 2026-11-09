@@ -17,7 +17,7 @@ const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getEleme
 /** The keys of `h` that are set (so that spreading it does not clear others). */
 const defined = (h: ViewRequest): ViewRequest => Object.fromEntries(Object.entries(h).filter(([, v]) => v !== undefined));
 const SPEEDS: [number, string][] = [[2, "0.5×"], [1, "1×"], [0.5, "2×"], [0.25, "4×"]]; // interval factor, label
-const DISCLAIMER_KEY = "otprof-live.disclaimer"; // localStorage: "closed" once the banner was collapsed
+const DISCLAIMER_KEY = "otprof-ui.disclaimer"; // localStorage: "closed" once the banner was collapsed
 const INDEX_POLL_MS = 10 * 60 * 1000; // new forecast runs: checked every 10 min
 const LIVE_CHECK_MS = 30 * 1000; // the live badge: goes off soon after the hour turns
 /** Index of the first time from the current hour (floored) on, -1 if all are earlier. */
@@ -35,7 +35,7 @@ function nowStep(times: Date[]): number {
  * before the first paint by public/theme.js); "system" follows the system setting while the page is open. Fires
  * `themechange` on window for what reads colours in code (the map). */
 function setupTheme() {
-  const KEY = "otprof-live.theme";
+  const KEY = "otprof-ui.theme";
   const system = matchMedia("(prefers-color-scheme: dark)");
   let choice = "system";
   try {
@@ -248,8 +248,11 @@ async function main() {
     const c = climOf(app.data);
     const s = st();
     const name = labels.profileVar(s);
-    const csv = c && name ? profileCsv(c, name, s.step, s.cell) : undefined;
-    if (!c || !csv) return;
+    if (!c || !name) return;
+    const period = labels.periodLabel(c) && ` (${labels.periodLabel(c)})`;
+    const about = `OTProf climatology: profile of ${labels.label(name)} at ${labels.cellLabel(s.cell)} in ${fmtMonth(c.times[s.step])}${period}`; // fmt: skip
+    const csv = profileCsv(c, name, s.step, s.cell, about);
+    if (!csv) return;
     const [lat, lon] = [c.lat[Math.floor(s.cell / c.nlon)], c.lon[s.cell % c.nlon]];
     const month = String(c.meta.months[s.step]).padStart(2, "0");
     const file = `otprof-clim_${name.replace(/^l/, "")}_lat${lat.toFixed(2)}_lon${lon.toFixed(2)}_m${month}_${c.period}_EXPERIMENTAL.csv`; // fmt: skip
