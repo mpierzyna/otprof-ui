@@ -24,6 +24,7 @@
   --callout-bg: #fbf3e9;
   --callout-text: #5c3b1e;
   --callout-icon: #d9730d;
+  --callout-line: color-mix(in srgb, var(--callout-text) 15%, transparent); /* between the header and the text */
   --tooltip-bg: #2f2f2f;
   --tooltip-text: #f1f1ef;
   --shadow: 0 1px 2px rgba(15, 15, 15, 0.06), 0 2px 8px rgba(15, 15, 15, 0.06);
@@ -615,9 +616,12 @@ html {
 .banner[open] .chevron {
   transform: rotate(180deg);
 }
+/* The text flush with the triangle, below a line under the header (as .disclaimer-box) */
 .banner .markdown {
   max-width: none;
-  padding: 0 14px 12px 42px;
+  margin: 0 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--callout-line);
 }
 .banner .markdown > :first-child {
   margin-top: 0;
@@ -632,7 +636,7 @@ html {
 /* Below the disclaimer in the banner: where the full terms are */
 .banner .banner-more {
   margin: 0;
-  padding: 0 14px 12px 42px;
+  padding: 0 14px 12px;
   font-weight: 600;
 }
 
@@ -861,35 +865,46 @@ option {
   font-size: 13px;
 }
 /* The disclaimer (content/disclaimer.md) as a box: in the download dialog and on the licenses page; above the plots it
-   is the collapsible banner */
+   is the collapsible banner. The triangle and the heading in the first row, the text below over the full width, flush
+   with the triangle (the markdown's elements are the grid's items) */
 .disclaimer-box {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px; /* also between the paragraphs: margins of grid items do not collapse, they are 0 */
+  align-items: start;
   margin-bottom: 12px;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: var(--radius);
   background: var(--callout-bg);
   color: var(--callout-text);
   font-size: 13px;
 }
 .disclaimer-box .banner-icon {
-  flex: none;
+  align-self: center;
   width: 18px;
   height: 18px;
   fill: var(--callout-icon);
 }
 .disclaimer-box .markdown {
-  max-width: none;
+  display: contents;
 }
-.disclaimer-box .markdown > :first-child {
-  margin-top: 0;
+.disclaimer-box .markdown > * {
+  grid-column: 1 / -1;
+  margin: 0;
 }
-.disclaimer-box .markdown > :last-child {
-  margin-bottom: 0;
-}
-.disclaimer-box .markdown h3 {
-  margin: 0 0 4px;
+.disclaimer-box .markdown > h3 {
+  grid-column: 2;
+  align-self: center;
+  margin: 0;
   font-size: 13px;
+}
+.disclaimer-box .markdown > h3 + * {
+  padding-top: 12px;
+  border-top: 1px solid var(--callout-line);
+}
+/* On the licenses page: room between the page's title and the box */
+.page-text .disclaimer-box {
+  margin: 16px 0 20px;
 }
 .dialog-links {
   display: contents;
