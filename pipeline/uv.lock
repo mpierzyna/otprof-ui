@@ -13,7 +13,7 @@ resolution-markers = [
 [manifest]
 members = [
     "otprof",
-    "otprof-live",
+    "otprof-ui",
 ]
 
 [[package]]
@@ -2047,12 +2047,23 @@ wheels = [
 
 [[package]]
 name = "otprof"
-version = "0.2.2"
+version = "0.2.4"
 source = { editable = "otprof" }
 dependencies = [
+    { name = "gcsfs" },
+    { name = "huggingface-hub" },
+    { name = "lightning" },
+    { name = "matplotlib" },
+    { name = "netcdf4" },
     { name = "numpy" },
     { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "safetensors" },
+    { name = "scipy" },
+    { name = "tensorboardx" },
+    { name = "torch" },
     { name = "xarray" },
+    { name = "zarr" },
 ]
 
 [package.optional-dependencies]
@@ -2062,36 +2073,17 @@ data = [
     { name = "eccodes" },
     { name = "eccodeslib" },
     { name = "ecmwf-datastores-client" },
-    { name = "gcsfs" },
-    { name = "netcdf4" },
-    { name = "pyyaml" },
-    { name = "scipy" },
     { name = "tqdm" },
-    { name = "zarr" },
 ]
 gfs = [
     { name = "cfgrib" },
     { name = "eccodes" },
     { name = "eccodeslib" },
 ]
-hub = [
-    { name = "huggingface-hub" },
-]
-torch = [
-    { name = "safetensors" },
-    { name = "torch" },
-]
-train = [
-    { name = "lightning" },
-    { name = "matplotlib" },
-    { name = "safetensors" },
-    { name = "tensorboardx" },
-    { name = "torch" },
-]
 
 [package.dev-dependencies]
 dev = [
-    { name = "otprof", extra = ["data", "gfs", "hub", "train"] },
+    { name = "otprof", extra = ["data", "gfs"] },
     { name = "pytest" },
 ]
 
@@ -2105,33 +2097,32 @@ requires-dist = [
     { name = "eccodeslib", marker = "extra == 'data'", specifier = ">=2.50.0.33" },
     { name = "eccodeslib", marker = "extra == 'gfs'", specifier = ">=2.50.0.33" },
     { name = "ecmwf-datastores-client", marker = "extra == 'data'", specifier = ">=0.4" },
-    { name = "gcsfs", marker = "extra == 'data'", specifier = ">=2024.1" },
-    { name = "huggingface-hub", marker = "extra == 'hub'", specifier = ">=0.20" },
-    { name = "lightning", marker = "extra == 'train'", specifier = ">=2.4" },
-    { name = "matplotlib", marker = "extra == 'train'", specifier = ">=3.8" },
-    { name = "netcdf4", marker = "extra == 'data'", specifier = ">=1.6" },
+    { name = "gcsfs", specifier = ">=2024.1" },
+    { name = "huggingface-hub", specifier = ">=0.20" },
+    { name = "lightning", specifier = ">=2.4" },
+    { name = "matplotlib", specifier = ">=3.8" },
+    { name = "netcdf4", specifier = ">=1.6" },
     { name = "numpy", specifier = ">=2.0" },
-    { name = "otprof", extras = ["torch"], marker = "extra == 'train'", editable = "otprof" },
     { name = "pydantic", specifier = ">=2.0" },
-    { name = "pyyaml", marker = "extra == 'data'", specifier = ">=6" },
-    { name = "safetensors", marker = "extra == 'torch'", specifier = ">=0.4" },
-    { name = "scipy", marker = "extra == 'data'", specifier = ">=1.11" },
-    { name = "tensorboardx", marker = "extra == 'train'", specifier = ">=2.6" },
-    { name = "torch", marker = "extra == 'torch'", specifier = ">=2.4", index = "https://download.pytorch.org/whl/cu126" },
+    { name = "pyyaml", specifier = ">=6" },
+    { name = "safetensors", specifier = ">=0.4" },
+    { name = "scipy", specifier = ">=1.11" },
+    { name = "tensorboardx", specifier = ">=2.6" },
+    { name = "torch", specifier = ">=2.4", index = "https://download.pytorch.org/whl/cu126" },
     { name = "tqdm", marker = "extra == 'data'", specifier = ">=4.60" },
     { name = "xarray", specifier = ">=2024.1" },
-    { name = "zarr", marker = "extra == 'data'", specifier = ">=2.16" },
+    { name = "zarr", specifier = ">=2.16" },
 ]
-provides-extras = ["data", "torch", "gfs", "hub", "train"]
+provides-extras = ["data", "gfs"]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "otprof", extras = ["data", "train", "hub", "gfs"], editable = "otprof" },
+    { name = "otprof", extras = ["data", "gfs"], editable = "otprof" },
     { name = "pytest", specifier = ">=8" },
 ]
 
 [[package]]
-name = "otprof-live"
+name = "otprof-ui"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -2139,7 +2130,7 @@ dependencies = [
     { name = "dask" },
     { name = "h5netcdf" },
     { name = "h5py" },
-    { name = "otprof", extra = ["data", "gfs", "hub", "torch"] },
+    { name = "otprof", extra = ["data", "gfs"] },
     { name = "torch" },
     { name = "tqdm" },
 ]

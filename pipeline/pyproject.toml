@@ -1,7 +1,7 @@
 [project]
-name = "otprof-live"
+name = "otprof-ui"
 version = "0.1.0"
-description = "Pipelines of the OTProf live web app: GFS forecasts (forecast/) and the ERA5 climatology (climatology/)"
+description = "Pipelines of the OTProf web UI: GFS forecasts (forecast/) and the ERA5 climatology (climatology/)"
 readme = "README.md"
 authors = [
     { name = "Maximilian Pierzyna", email = "mpierzyna@tudelft.nl" }
