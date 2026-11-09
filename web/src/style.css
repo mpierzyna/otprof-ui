@@ -120,6 +120,23 @@ input {
 .page-header {
   position: relative;
   padding: 36px 32px 6px;
+  /* The logo spans the title and the subtitle */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 14px;
+  align-items: center;
+}
+.page-header .brand-logo {
+  grid-row: 1 / span 2;
+  width: 64px;
+  height: 64px;
+}
+#title {
+  grid-column: 2;
+  justify-self: start;
+}
+#subtitle {
+  grid-column: 2;
 }
 .theme-switch {
   position: absolute;
@@ -136,16 +153,24 @@ input {
   height: 16px;
   fill: currentColor;
 }
+/* The home link: logo and title, items of the header's grid (no box of its own); the title is highlighted on hover */
 .brand {
-  display: inline-block;
-  margin-left: -6px;
-  padding: 0 6px;
-  border-radius: var(--radius-s);
+  display: contents;
   color: inherit;
   text-decoration: none;
 }
-.brand:hover {
+.brand #title {
+  margin-left: -6px;
+  padding: 0 6px;
+  border-radius: var(--radius-s);
+}
+.brand:hover #title {
   background: var(--hover);
+}
+/* The logo (public/logo-*.svg, scripts/make_logo.py) of the app's theme */
+:root:not([data-theme="dark"]) .brand-logo.dark,
+:root[data-theme="dark"] .brand-logo.light {
+  display: none;
 }
 #title {
   font-size: 34px;
@@ -336,6 +361,18 @@ input {
   }
   #title {
     font-size: 28px;
+  }
+  /* Narrow: the logo only next to the title, the subtitle below over the full width */
+  .page-header {
+    column-gap: 10px;
+  }
+  .page-header .brand-logo {
+    grid-row: 1;
+    width: 34px;
+    height: 34px;
+  }
+  #subtitle {
+    grid-column: 1 / -1;
   }
   .tabs {
     padding: 0 10px;
