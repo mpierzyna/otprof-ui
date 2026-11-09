@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Profile panel (variable vs height at the selected cell and time) and time-height panels (the profile variable over
 // the forecast, the months or the hours of a month of the climatology at the selected cell, with the column variables
 // below: as time series, or per step as box plots or violins).

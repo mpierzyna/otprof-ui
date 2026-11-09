@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Map panel: the field as a canvas image in Web Mercator (rows uniform in Mercator y, so the cells sit exactly on the
 // lat-lon grid), basemap from static GeoJSON, the data domain outline and the selected cell.
 

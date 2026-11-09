@@ -6,6 +6,11 @@ All data on this website (forecasts, climatology, plots and downloads) is licens
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), which excludes any warranty.
 Copyright: Maximilian Pierzyna (2026).
 
+### Source code
+
+The source code of this website and its data pipelines, [OTProf UI](https://github.com/mpierzyna/otprof-ui), is licensed
+under the [GNU General Public License v3.0 or later](https://www.gnu.org/licenses/gpl-3.0.html).
+
 ### Input data
 
 - **GFS** (forecast): NOAA/NCEP Global Forecast System, public domain.

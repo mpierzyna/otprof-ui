@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Paths of the pipelines (forecast and climatology), from environment variables with local defaults.
 
     pipeline/data/                OTPROF_DATA: data root of both pipelines (git-ignored)

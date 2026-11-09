@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Writers of the web app's data formats (docs/DATA_FORMAT.md): forecast cycles (`otprof-live/1`, `write_cycle`) and the
 index of a data root (`write_index`). The climatology: `webui_climatology`.
 

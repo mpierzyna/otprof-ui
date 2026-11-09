@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Annotations from markdown files (sanitised). Links like [text](/forecast/r0?t=12&z=100&lat=52&lon=5) set the view.
 
 import DOMPurify from "dompurify";

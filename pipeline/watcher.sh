@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Every INTERVAL seconds (default 3600): process a new GFS cycle (forecast/run.sh, stops quietly if there is none), then
 # mirror the web app's data to the server (upload.sh). The upload runs on every check, whatever the forecast did: a failed
 # upload is repeated within the hour, and a new climatology goes out with the next check. A failed run is logged and

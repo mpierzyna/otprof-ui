@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Writer of the web app's climatology (`otprof-live-clim/1`, docs/DATA_FORMAT.md) from the statistics of step 4 of the
 climatology pipeline, with the statistics as NetCDF files for download.
 

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Step 3: convert the run's predictions (`2_prediction/preds.nc`) to the web app's data format `otprof-live/1`
 (docs/DATA_FORMAT.md) → `WEBUI_DATA/<YYYYMMDDHH>/`, update `WEBUI_DATA/index.json`, and finish the run.
 

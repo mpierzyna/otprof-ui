@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Predict Cn2 profiles with the published SQF-H from the ERA5 of step 2 → `PREDICTIONS_STORE`.
 
 Month by month, in the order of step 2, every month in the ERA5 store not predicted yet, so

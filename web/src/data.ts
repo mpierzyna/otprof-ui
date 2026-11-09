@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Reading the otprof-live/1 data format (docs/DATA_FORMAT.md): index, cycle metadata and the binary arrays, and the
 // climatology (otprof-live-clim/1).
 

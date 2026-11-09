@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# One version for the web app and the pipelines: `uvx bump-my-version bump patch|minor|major` in the repository root
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = true
+tag_name = "v{new_version}"
+message = "Bump version: {current_version} → {new_version}"
+
+[[tool.bumpversion.files]]
+filename = "web/package.json"
+regex = true
+search = '^  "version": "{current_version}",$'
+replace = '  "version": "{new_version}",'
+
+# package-lock.json: the top level and the root package (""), not the dependencies
+[[tool.bumpversion.files]]
+filename = "web/package-lock.json"
+regex = true
+search = '^  "version": "{current_version}",$'
+replace = '  "version": "{new_version}",'
+
+[[tool.bumpversion.files]]
+filename = "web/package-lock.json"
+regex = true
+search = '^(    "": \{{\n      "name": "[^"]+",\n)      "version": "{current_version}",$'
+replace = '\g<1>      "version": "{new_version}",'
+
+[[tool.bumpversion.files]]
+filename = "pipeline/pyproject.toml"
+regex = true
+search = '^version = "{current_version}"$'
+replace = 'version = "{new_version}"'
+
+# Edited as text, like in otprof: the root package of the lock file (editable "."), not the dependencies
+[[tool.bumpversion.files]]
+filename = "pipeline/uv.lock"
+regex = true
+search = '^(name = "[^"]+"\n)version = "{current_version}"(\nsource = \{{ editable = "\." \}})$'
+replace = '\g<1>version = "{new_version}"\g<2>'
+
+# The software's version only, not the versions of its references
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+regex = true
+search = '^version: {current_version}$'
+replace = 'version: {new_version}'

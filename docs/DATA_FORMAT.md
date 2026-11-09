@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Data format `otprof-live/1`
 
 The web app reads only static files below one data root (`dataUrl` in `web/public/config.json`, default `data/`).

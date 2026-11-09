@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // The colour theme before the first paint (no flash of the light theme): the choice stored by the theme switch, else
 // the system setting. main.ts (setupTheme) keeps it up to date. A file, not inline: the CSP allows only 'self' scripts.
 (function () {

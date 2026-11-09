@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Texts of the app
 
 Markdown, rendered into `index.html` when the app is built (`vite.config.ts`, plugin `content`): edit, then push and

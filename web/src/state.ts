@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Shared view state of all panels, mirrored in the URL (router.ts).
 
 import type { Config } from "./config";

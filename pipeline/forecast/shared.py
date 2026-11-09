@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Settings of the forecast pipeline. Paths: `otprof_live.config` (env vars, pipeline/.env)."""
 
 import datetime

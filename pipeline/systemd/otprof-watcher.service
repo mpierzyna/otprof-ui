@@ -1,11 +1,16 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # The watcher as a systemd user service: restarts after a failure and a reboot, logs to the journal. Not enabled by
-# default; see pipeline/README.md. Assumes the clone at ~/Projects/otprof-live and uv at ~/.local/bin.
+# default; see pipeline/README.md. Assumes the clone at ~/otprof-ui and uv
+# at ~/.local/bin: adjust the paths to your setup.
 [Unit]
 Description=OTProf: process new GFS cycles and upload the web app's data
 After=network-online.target
 
 [Service]
-ExecStart=%h/Projects/otprof-live/pipeline/watcher.sh
+ExecStart=%h/otprof-ui/pipeline/watcher.sh
 Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
 Restart=on-failure
 RestartSec=60

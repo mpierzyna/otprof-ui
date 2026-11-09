@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Downloads: every file goes through the dialog with the disclaimer.
 
 import type { Climatology } from "./data";

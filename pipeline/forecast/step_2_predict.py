@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Step 2: predict Cn2 profiles, r0 and lsi2 with the published SQF-H from the run's GFS lead times (step 1) →
 `2_prediction/preds.nc`.
 

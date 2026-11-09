@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # One run of the forecast pipeline: the newest GFS cycle (step 0) → download, predict, convert (steps 1-3) into the web
 # app's data; ../upload.sh publishes them (../watcher.sh runs both). Stops quietly if the newest cycle is processed
 # already; an interrupted run is resumed by the next call. Only one run at a time (lock file).

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Step 1: download the lead times `LEADS` of the run's GFS cycle (picked by step 0) in `AREA_NL` →
 `1_raw/gfs_<cycle>+<lead>.nc`.
 

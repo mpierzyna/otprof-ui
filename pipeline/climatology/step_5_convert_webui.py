@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Convert the statistics of step 4 to the web app's climatology (`otprof-live-clim/1`, docs/DATA_FORMAT.md) →
 `WEBUI_DATA/climatology/`, with the statistics as NetCDF files for download, and list it in `WEBUI_DATA/index.json`.
 

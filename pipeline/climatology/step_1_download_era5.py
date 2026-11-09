@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Download 3-hourly ERA5 over the NL training area from 2005 on from the CDS (GRIB) → `GRIB_DIR` (`{pl,sl}/*.grib`).
 
 Same area and variables as the training data of SQF-H. The quarters are downloaded one by one in the order of a Sobol

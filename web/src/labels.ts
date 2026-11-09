@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // What the panels call things: formats of times and places, and per variable its label, units, number format, colour map
 // and scale as shown (config.json first, then the data; a variable stored as log₁₀ can be shown linearly).
 

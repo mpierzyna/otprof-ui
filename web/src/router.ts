@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // The view in the URL: /forecast/<variable>?run=<cycle>&t=<lead h>&z=<m>&lat=..&lon=..,
 // /climatology/<variable>?month=<1-12>&stat=..&period=<day|night>&z=<m>&lat=..&lon=..; log=<names>: the log₁₀ variables
 // shown as log₁₀, the others linearly. What is at its default (statistic, period, height, location, log₁₀ switches) is

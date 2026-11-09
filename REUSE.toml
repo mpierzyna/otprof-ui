@@ -1,0 +1,23 @@
+version = 1
+
+# Files without room for a comment. The texts of the app (web/content) are rendered into the page, where a comment
+# would end up in the title.
+[[annotations]]
+path = [
+    ".gitignore",
+    ".gitmodules",
+    ".dockerignore",
+    "CITATION.cff",
+    "pipeline/.gitignore",
+    "pipeline/.python-version",
+    "pipeline/pyproject.toml",
+    "pipeline/uv.lock",
+    "web/.gitignore",
+    "web/package.json",
+    "web/package-lock.json",
+    "web/tsconfig.json",
+    "web/public/config.json",
+    "web/content/*.md",
+]
+SPDX-FileCopyrightText = "2026 Maximilian Pierzyna"
+SPDX-License-Identifier = "GPL-3.0-or-later"

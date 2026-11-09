@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { Marked, type MarkedExtension, type Token } from "marked";
@@ -86,7 +90,7 @@ function content(): Plugin {
 
 // The app has paths of its own (/forecast/.., /climatology/.., /license), so its files have absolute URLs: it is served from the root
 // of the web server, or from OTPROF_BASE (e.g. /otprof/, then adjust the routes in nginx.conf too).
-// Dev server on another interface (e.g. Tailscale):  npm run dev -- --host <ip>
+// Dev server on another interface (e.g. to open it on a phone):  npm run dev -- --host <ip>
 export default defineConfig({
   base: process.env.OTPROF_BASE ?? "/",
   build: { chunkSizeWarningLimit: 1500 },

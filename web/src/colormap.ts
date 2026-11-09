@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Colour maps (d3-scale-chromatic) as lookup tables, and colour bars.
 
 import * as chromatic from "d3-scale-chromatic";

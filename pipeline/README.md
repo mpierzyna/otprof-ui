@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # OTProf live pipelines
 
 Two pipelines write the web app's data (`docs/DATA_FORMAT.md`) into one data root, and `upload.sh` publishes it to the
@@ -54,7 +60,7 @@ nohup ./watcher.sh >> data/watcher.log 2>&1 &                   # background
 ```
 
 To keep it running across logouts and reboots, as a systemd user service (the service files assume the clone at
-`~/Projects/otprof-live` and uv at `~/.local/bin`):
+`~/otprof-ui` and uv at `~/.local/bin`; adjust the paths in `systemd/*.service` to your setup):
 
 ```sh
 systemctl --user enable --now "$(pwd)/systemd/otprof-watcher.service"

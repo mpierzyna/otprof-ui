@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Number formats: very small and very large magnitudes in scientific notation with superscript exponents (2.5×10⁻¹⁵),
 // for variables shown linearly that are stored as log₁₀ (Cₙ²).
 

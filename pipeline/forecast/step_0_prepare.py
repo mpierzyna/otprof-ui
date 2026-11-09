@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Step 0: pick the GFS cycle of this run and prepare its run directory `FORECAST_DATA/<cycle>/` (linked as
 `FORECAST_DATA/running`).
 

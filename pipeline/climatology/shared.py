@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Settings and helpers of the climatology pipeline (steps 1 to 5). The steps import from here, not from each other.
 Paths: `otprof_live.config` (env vars, pipeline/.env).
 

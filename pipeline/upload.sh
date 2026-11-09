@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Mirror the web app's data root (WEBUI_DATA: the cycles of the forecast pipeline with their NetCDF for download, the
 # climatology of its step 5) to the remote with rclone. Independent of both pipelines; does nothing if nothing changed.
 #
@@ -7,7 +12,7 @@
 #   ./upload.sh --config     set up the remote interactively (rclone config with the local config file)
 #
 # The rclone config is local to the pipeline (pipeline/.rclone.conf, git-ignored). The remote must be named "otprof" and
-# point at the web app's data root, e.g. "otprof:/srv/otprof_data" (a path can be set with OTPROF_REMOTE_PATH).
+# point at the web app's data root on the server (a path below the remote can be set with OTPROF_REMOTE_PATH).
 # The remote ends up identical to WEBUI_DATA: files that are not there are deleted on the remote.
 set -euo pipefail
 

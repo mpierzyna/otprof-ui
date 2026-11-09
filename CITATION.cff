@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying article (preferred citation)"
+type: software
+title: "OTProf UI: Live Forecasts and Climatology of Optical Turbulence Profiles"
+version: 0.1.0
+license: GPL-3.0-or-later
+repository-code: "https://github.com/mpierzyna/otprof-ui"
+url: "https://otprof.mpier.eu"
+authors:
+  - family-names: Pierzyna
+    given-names: Maximilian
+    orcid: "https://orcid.org/0000-0002-0596-8374"
+    affiliation: "Technische Universiteit Delft"
+
+preferred-citation:
+  type: article
+  title: "OTProf: estimating high-resolution profiles of optical turbulence ($C_n^2$) from reanalysis using deep learning"
+  authors:
+    - family-names: Pierzyna
+      given-names: Maximilian
+      orcid: "https://orcid.org/0000-0002-0596-8374"
+    - family-names: Basu
+      given-names: Sukanta
+    - family-names: Saathof
+      given-names: Rudolf
+  status: preprint
+  year: 2026
+  month: 4
+  doi: 10.48550/arXiv.2604.09346
+  url: "https://arxiv.org/abs/2604.09346"
+  journal: "arXiv"
+
+references:
+  - type: software
+    title: "OTProf: Estimating High-Resolution Profiles of Optical Turbulence from Reanalysis Using Deep Learning"
+    authors:
+      - family-names: Pierzyna
+        given-names: Maximilian
+        orcid: "https://orcid.org/0000-0002-0596-8374"
+    version: 0.2.4
+    license: GPL-3.0-or-later
+    repository-code: "https://github.com/mpierzyna/otprof"
+    doi: 10.5281/zenodo.24084350

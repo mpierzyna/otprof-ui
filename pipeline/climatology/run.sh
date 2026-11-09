@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Update the climatology from what step 1 has downloaded so far: convert (step 2), predict (3), statistics (4), web app
 # format (5). One-off runs, by hand: during the download for a first look, and once it is finished. The download (step 1)
 # runs on its own for days: uv run step_1_download_era5.py --download

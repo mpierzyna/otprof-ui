@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Draws the state: map, profile, annual or forecast time-height plot, diurnal cycle, controls. Reads the dataset shown and
 // the state from `App`; changes only the page.
 

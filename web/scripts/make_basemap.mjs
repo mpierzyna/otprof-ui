@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Basemap for the map panel: land (its outline is the coastline) and country borders from Natural Earth 1:10m
 // (world-atlas), clipped to a region and rounded, written to public/basemap/. Run once (npm run basemap).
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";

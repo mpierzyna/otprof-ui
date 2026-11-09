@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """NetCDF files of both pipelines: atomic writing, fixed time encoding, the licence of the data for download."""
 
 import numpy as np

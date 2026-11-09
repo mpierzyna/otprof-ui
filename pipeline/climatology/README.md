@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # ERA5 Cn2 climatology
 
 Cn2 profiles, Fried parameter r0 and scintillation index predicted with SQF-H (`otprof`) from 3-hourly ERA5 over the NL

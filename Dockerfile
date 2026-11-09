@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Static app in an nginx image: built in a Node stage, only web/dist ends up in the final image.
 # The forecast data are not part of the image: docker-compose.yml mounts them at /usr/share/nginx/html/data.
 FROM node:24-slim AS build

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Statistics of the predicted Cn2 profiles, Fried parameter and scintillation index of step 3 → `STATS_DIR`.
 
 Variables: `lcn2` (log10 Cn2 [m-2/3], per height `z`), `cn2` (linear Cn2), `r0` (Fried parameter [cm]), `si2`

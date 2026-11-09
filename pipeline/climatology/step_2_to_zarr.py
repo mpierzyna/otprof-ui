@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Maximilian Pierzyna
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Convert the CDS GRIB files of step 1 to one zarr store in the ARCO layout of `era5.fetch` → `ERA5_STORE`.
 
 Month by month, in the download order of step 1, every month whose GRIB files are complete; months still downloading are
