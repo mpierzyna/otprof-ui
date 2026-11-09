@@ -58,7 +58,7 @@ container through a reverse proxy network instead of a published port. TLS is no
 behind the host's reverse proxy (or `tailscale serve`). Rollback: `git checkout <commit> && docker compose up -d
 --build`.
 
-The app has paths of its own (`/forecast/..`, `/climatology/..`), which the web server answers with `index.html`
+The app has paths of its own (`/forecast/..`, `/climatology/..`, `/license`), which the web server answers with `index.html`
 (`nginx.conf`), so it is served from the root of its host. For a subdirectory: build with `OTPROF_BASE=/otprof/` and
 adjust the routes in `nginx.conf`.
 

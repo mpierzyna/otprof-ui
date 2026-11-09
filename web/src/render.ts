@@ -526,8 +526,9 @@ export class Renderer {
     newer.title = `A newer forecast is available (${fmtCycle(latest)}): show it`;
     this.live();
     this.csvButton();
-    for (const b of $("mode-tabs").querySelectorAll("button"))
-      b.setAttribute("aria-selected", String(b.dataset.mode === s.mode));
+    if ($("license-page").hidden) // else the license tab (main.ts)
+      for (const b of $("mode-tabs").querySelectorAll("button"))
+        b.setAttribute("aria-selected", String(b.dataset.mode === s.mode));
     const c = climOf(data);
     for (const b of $("period").querySelectorAll("button"))
       b.setAttribute("aria-pressed", String(b.dataset.period === s.period));

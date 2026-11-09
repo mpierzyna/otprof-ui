@@ -5,7 +5,7 @@ import { Climatology, Cycle, type Dataset, latestCycle, loadIndex, nearestIndex 
 import { Downloads, fmtBytes, profileCsv } from "./download";
 import { climOf, fmtCycle, fmtMonth, Labels } from "./labels";
 import { currentHour, loading, PANELS, Renderer } from "./render";
-import { BASE, type Mode, parseLog, parseUrl, toUrl, type ViewRequest, viewLink } from "./router";
+import { BASE, isLicensePage, type Mode, parseLog, parseUrl, toUrl, type ViewRequest, viewLink } from "./router";
 import { type App, resolve, type State, Store } from "./state";
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -108,8 +108,21 @@ function setupStickyControls() {
   phone.addEventListener("change", update);
 }
 
+/** The license page (content/license.md, /license) instead of the panels and their footer (the keys), or the panels;
+ * the tab bar stays. The tabs of the panels are selected by the renderer. */
+function showLicense(on: boolean) {
+  $("license-page").hidden = !on;
+  document.querySelector<HTMLElement>("main.layout")!.hidden = on;
+  document.querySelector<HTMLElement>(".footer")!.hidden = on;
+  if (on)
+    for (const b of $("mode-tabs").querySelectorAll("button"))
+      b.setAttribute("aria-selected", String(b.dataset.page === "license"));
+}
+const licenseShown = () => !$("license-page").hidden;
+
 async function main() {
   setupTheme();
+  showLicense(isLicensePage());
   const config = await loadConfig();
   setupDisclaimer();
   setupStickyControls();
@@ -254,13 +267,18 @@ async function main() {
       console.warn("Checking for new forecasts failed:", e);
     }
   }, INDEX_POLL_MS);
-  $("mode-tabs").hidden = !climUrl;
+  $("mode-tabs").querySelector<HTMLElement>("[data-mode=climatology]")!.hidden = !climUrl;
   for (const b of $("th-kind").querySelectorAll<HTMLButtonElement>("button"))
     b.addEventListener("click", () => store.set({ annualKind: b.dataset.kind as State["annualKind"] }));
   for (const b of $("diurnal-kind").querySelectorAll<HTMLButtonElement>("button"))
     b.addEventListener("click", () => store.set({ diurnalKind: b.dataset.kind as State["diurnalKind"] }));
-  for (const b of $("mode-tabs").querySelectorAll<HTMLButtonElement>("button"))
-    b.addEventListener("click", () => void switchMode(b.dataset.mode as Mode));
+  for (const b of $("mode-tabs").querySelectorAll<HTMLButtonElement>("button[data-mode]"))
+    b.addEventListener("click", () => void openMode(b.dataset.mode as Mode));
+  $("mode-tabs").querySelector("[data-page=license]")!.addEventListener("click", () => {
+    if (licenseShown()) return;
+    history.pushState(null, "", `${BASE}license`);
+    route();
+  });
   for (const b of $("period").querySelectorAll<HTMLButtonElement>("button"))
     b.addEventListener("click", () => void switchPeriod(b.dataset.period!));
   setInterval(() => render.live(), LIVE_CHECK_MS); // the selection stays, the time moves on
@@ -284,6 +302,7 @@ async function main() {
    * it; moving through the times, heights and places is not. `replace`: never a new entry (the URL asked for the view). */
   let following = false;
   const syncUrl = (replace = following) => {
+    if (licenseShown()) return; // the URL stays /license, the panels behind it follow
     const { zi, cell } = fallback(app.data);
     const url = new URL(toUrl(st(), app.data, { zi, cell, log: labels.logDefault }), location.origin);
     const page = (u: { pathname: string; search: string }) => {
@@ -337,6 +356,15 @@ async function main() {
     if (mode === st().mode || (mode === "climatology" && !climUrl)) return;
     await loading(PANELS, switchModeTo(mode));
   }
+  /** A tab of the panels: from the license page back to the panels as they were left, then to `mode`. */
+  async function openMode(mode: Mode) {
+    if (licenseShown()) {
+      showLicense(false);
+      render.controls();
+      if (mode === st().mode || (mode === "climatology" && !climUrl)) return syncUrl();
+    }
+    await switchMode(mode);
+  }
   async function switchModeTo(mode: Mode) {
     const h = physical();
     if (mode === "climatology") {
@@ -383,11 +411,19 @@ async function main() {
     syncUrl(true);
     if (app.firstStep !== before) void next.loadAll(r.step, app.firstStep);
   }
+  /** Show the page of the URL: the license, or the panels with the view it asks for. */
+  function route() {
+    const license = isLicensePage();
+    showLicense(license);
+    if (license) return scrollTo(0, 0);
+    render.controls();
+    void followUrl();
+  }
   // Links from before the paths (#mode=clim&..) go to the landing page, also while the page is open (a change of the hash
   // is a popstate too)
   addEventListener("popstate", () => {
     if (location.hash) history.replaceState(null, "", BASE);
-    void followUrl();
+    route();
   });
   // Links to views in the notes: without loading the page again
   document.addEventListener("click", (e) => {
@@ -396,12 +432,12 @@ async function main() {
     if (!target || e.ctrlKey || e.metaKey || e.shiftKey) return;
     e.preventDefault();
     history.pushState(null, "", target);
-    void followUrl();
+    route();
   });
 
   addEventListener("keydown", (e) => {
     const t = e.target as HTMLElement;
-    if (downloads.isOpen) return;
+    if (downloads.isOpen || licenseShown()) return;
     if (t.tagName === "SELECT" || (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "checkbox")) return;
     const s = st();
     const n = app.data.times.length;

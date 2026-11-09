@@ -77,7 +77,11 @@ export function toUrl(
   return `${BASE}${s.mode}/${s.variable}?${String(p).replace(/%2C/g, ",")}`; // commas are fine in a query
 }
 
-/** The target of a link to a view of the app (`/forecast/..`, `/climatology/..`, in the notes), else undefined. */
+/** The target of a link to a view or page of the app (`/forecast/..`, `/climatology/..`, `/license`, in the notes), else
+ * undefined. */
 export function viewLink(href: string): string | undefined {
-  return /^\/(forecast|climatology)(\/|\?|$)/.test(href) ? BASE + href.slice(1) : undefined;
+  return /^\/(forecast|climatology|license)(\/|\?|$)/.test(href) ? BASE + href.slice(1) : undefined;
 }
+
+/** Whether the URL is the license page (content/license.md) instead of the panels. */
+export const isLicensePage = (url: { pathname: string } = location) => url.pathname.slice(BASE.length) === "license";

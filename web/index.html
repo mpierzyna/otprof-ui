@@ -26,9 +26,10 @@
       </div>
     </header>
     <div class="tabbar">
-      <nav id="mode-tabs" class="tabs" role="tablist" aria-label="View" hidden>
+      <nav id="mode-tabs" class="tabs" role="tablist" aria-label="View">
         <button type="button" role="tab" data-mode="forecast">Live forecast</button>
-        <button type="button" role="tab" data-mode="climatology">Climatology</button>
+        <button type="button" role="tab" data-mode="climatology" hidden>Climatology</button>
+        <button type="button" role="tab" data-page="license" class="tab-aside">License</button>
       </nav>
       <div id="progress" class="progress" role="progressbar" aria-label="Loading" hidden><div></div></div>
     </div>
@@ -191,6 +192,10 @@
         </article>
         <dl id="info" class="info"></dl>
       </section>
+    </main>
+
+    <main id="license-page" class="page" hidden>
+      <article class="card markdown page-text"><!--content:license--></article>
     </main>
 
     <footer class="footer"><!--content:footer:inline--></footer>
