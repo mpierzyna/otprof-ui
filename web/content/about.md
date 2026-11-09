@@ -1,5 +1,6 @@
 ### How it is made
 
+OTProf and this website are developed by [Maximilian Pierzyna](https://mpier.eu).
 This website shows live forecasts and a climatology of optical turbulence profiles ($C_n^2$) and column-integrated
 parameters (Fried parameter $r_0$ and scintillation index $\sigma_I^2$) over the Netherlands, estimated by the deep
 learning model OTProf. The OTProf system is composed of the following three packages:
@@ -14,7 +15,8 @@ learning model OTProf. The OTProf system is composed of the following three pack
 The method and its performance are described in
 [📄 Pierzyna, Basu, Saathof (2026, preprint)](https://arxiv.org/abs/2604.09346).
 
-### Licenses and terms of use
-The OTProf products (forecasts and climatology) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), which
-excludes any warranty. See [Licenses](/licenses) for the full details of how you may use them, and for the third-party
-data and software they build on.
+### How to cite
+
+If you use OTProf products, please cite [Pierzyna, Basu, and Saathof (2026)](https://doi.org/10.48550/arXiv.2604.09346).
+The products are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), so please credit them and
+share derived work under the same license. See [Licenses](/licenses) for details.

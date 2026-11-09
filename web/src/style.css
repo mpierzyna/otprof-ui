@@ -1692,6 +1692,22 @@ mjx-container[display="true"] {
   color: var(--text-3);
   font-size: 12px;
 }
+.footer p {
+  margin: 0;
+}
+/* Who made it, on every page: below the keys of the panels */
+.footer .footer-credit {
+  margin-top: 6px;
+  color: var(--text-2);
+}
+.footer-credit a {
+  color: inherit;
+  text-decoration-color: var(--text-3);
+  text-underline-offset: 2px;
+}
+.footer-credit a:hover {
+  color: var(--accent);
+}
 
 .snackbar {
   position: fixed;

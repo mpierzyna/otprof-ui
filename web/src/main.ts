@@ -113,12 +113,12 @@ function setupStickyControls() {
   phone.addEventListener("change", update);
 }
 
-/** The licenses page (content/licenses.md, /licenses) instead of the panels and their footer (the keys), or the panels;
+/** The licenses page (content/licenses.md, /licenses) instead of the panels and the keys in the footer, or the panels;
  * the tab bar stays. The tabs of the panels are selected by the renderer. */
 function showLicenses(on: boolean) {
   $("licenses-page").hidden = !on;
   document.querySelector<HTMLElement>("main.layout")!.hidden = on;
-  document.querySelector<HTMLElement>(".footer")!.hidden = on;
+  $("footer-keys").hidden = on; // the credit line in the footer stays
   if (!on) return;
   for (const b of $("mode-tabs").querySelectorAll("button"))
     b.setAttribute("aria-selected", String(b.dataset.page === "licenses"));

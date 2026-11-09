@@ -21,6 +21,7 @@ literal dollar sign: `\$`.
 | `climatology.md` | the notes card in the climatology, first |
 | `download.md` | the download dialog: its first heading is the dialog's title, the rest is shown above the buttons |
 | `licenses.md` | the licenses page (tab at the right, `/licenses`), followed by the bundled software and its licenses (generated when the app is built) |
-| `footer.md` | the footer (inline markdown) |
+| `footer.md` | the footer below the panels: the keys (inline markdown) |
+| `credit.md` | the footer on every page: who made it (inline markdown) |
 
 Labels and units of the variables are in `public/config.json`; short hints of the plots are in `src/main.ts`.
