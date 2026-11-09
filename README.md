@@ -154,7 +154,17 @@ Unless otherwise noted, the content of this repository is licensed under **GNU G
 (see [`COPYING`](./COPYING)). The repository follows the [REUSE](https://reuse.software) specification: every file
 states its license, in its header or in [`REUSE.toml`](./REUSE.toml); check with `reuse lint`.
 
-The data shown on the website are licensed separately, under CC BY-SA 4.0 (see the License page of the website).
+The data shown on the website are licensed separately, under CC BY-SA 4.0 (see the Licenses page of the website).
+
+### Third-party code
+
+The icons of the web app ([`web/src/icons.ts`](web/src/icons.ts)) are [Material Icons](https://github.com/google/material-design-icons)
+by Google, licensed under the Apache License 2.0 (see [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt)); some of
+their paths are written in a shorter form.
+
+The built web app also contains open-source packages from npm (MapLibre GL JS, d3, marked, DOMPurify, the Inter font),
+each under its own license. The build lists them with their license texts (`third-party-licenses.json`, written by
+Vite), and the Licenses page of the website shows that list.
 
 ## Copyright notice
 

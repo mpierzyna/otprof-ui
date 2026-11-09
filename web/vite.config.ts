@@ -12,6 +12,7 @@ import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
 import { mathjax } from "mathjax-full/js/mathjax.js";
 import { SVG } from "mathjax-full/js/output/svg.js";
 import { type Connect, defineConfig, type Plugin } from "vite";
+import { ICONS, type IconName } from "./src/icons";
 
 // Development data (default: the pipelines' web data, pipeline/data/webui) served at /data/ by the dev and preview
 // servers only, so it never ends up in the build: in production the web server delivers it at the same path.
@@ -28,6 +29,23 @@ function devData(): Plugin {
     });
   };
   return { name: "dev-data", configureServer: serve, configurePreviewServer: serve };
+}
+
+// The bundled software with its licenses (license page) exists only in a build (build.license below): the dev server
+// serves the one of the last build in dist/, if any (npm run build to update it)
+const THIRD_PARTY = "third-party-licenses.json";
+function devLicenses(): Plugin {
+  return {
+    name: "dev-licenses",
+    configureServer(server) {
+      const file = resolve(__dirname, "dist", THIRD_PARTY);
+      server.middlewares.use(`${server.config.base}${THIRD_PARTY}`, (_req, res, next) => {
+        if (!existsSync(file)) return next();
+        res.setHeader("Content-Type", "application/json");
+        createReadStream(file).pipe(res);
+      });
+    },
+  };
 }
 
 // Texts of the app (content/*.md, see content/README.md) rendered into index.html at build time:
@@ -62,6 +80,14 @@ function math(): MarkedExtension {
 }
 const marked = new Marked(math());
 
+// Icons (src/icons.ts: Material Icons, Apache-2.0) into index.html: <!--icon:NAME--> the <path> of the icon, <!--icon:NAME#ID-->
+// with that id
+function icon(name: string, id?: string) {
+  const d = ICONS[name as IconName];
+  if (!d) throw new Error(`icon:${name}: unknown icon`);
+  return `<path${id ? ` id="${id}"` : ""} d="${d}" />`;
+}
+
 function content(): Plugin {
   const external = (html: string) => html.replace(/<a href="(?!\/(?:forecast|climatology|license)\b)/g, '<a target="_blank" rel="noopener noreferrer" href="');
   const parse = (tokens: Token[]) => external(marked.parser(tokens));
@@ -80,7 +106,9 @@ function content(): Plugin {
   return {
     name: "content",
     transformIndexHtml: (html) =>
-      html.replace(/<!--content:([\w-]+)(?::(\w+))?-->/g, (_, name: string, part?: string) => render(name, part)),
+      html
+        .replace(/<!--content:([\w-]+)(?::(\w+))?-->/g, (_, name: string, part?: string) => render(name, part))
+        .replace(/<!--icon:(\w+)(?:#([\w-]+))?-->/g, (_, name: string, id?: string) => icon(name, id)),
     configureServer(server) {
       server.watcher.add(CONTENT);
       server.watcher.on("change", (file) => file.startsWith(CONTENT) && server.ws.send({ type: "full-reload" }));
@@ -93,8 +121,9 @@ function content(): Plugin {
 // Dev server on another interface (e.g. to open it on a phone):  npm run dev -- --host <ip>
 export default defineConfig({
   base: process.env.OTPROF_BASE ?? "/",
-  build: { chunkSizeWarningLimit: 1500 },
+  // The software bundled into the app, with its licenses: shown on the license page (src/licenses.ts)
+  build: { chunkSizeWarningLimit: 1500, license: { fileName: THIRD_PARTY } },
   server: { port: 5173, strictPort: true },
   preview: { port: 4173, strictPort: true },
-  plugins: [devData(), content()],
+  plugins: [devData(), devLicenses(), content()],
 });

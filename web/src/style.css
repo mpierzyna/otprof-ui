@@ -222,6 +222,40 @@ input {
 .page-text > * {
   max-width: 80ch;
 }
+/* The software bundled into the app (src/licenses.ts): one collapsible entry per package with its license file */
+#third-party > * {
+  max-width: 80ch;
+}
+.license-entry {
+  border-top: 1px solid var(--border);
+}
+.license-entry:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.license-entry summary {
+  padding: 7px 2px;
+  cursor: pointer;
+}
+.license-entry summary:hover {
+  background: var(--hover);
+}
+.license-id {
+  float: right;
+  margin-left: 12px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+.license-entry pre {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  max-height: 360px;
+  overflow: auto;
+  border-radius: var(--radius-s);
+  background: var(--panel-2);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
 @media (max-width: 860px) {
   .page {
     padding: 12px;

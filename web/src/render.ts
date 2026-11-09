@@ -9,6 +9,7 @@ import { format } from "d3-format";
 import { drawColorbar } from "./colormap";
 import { Climatology, Cycle, type Dataset, latestCycle, nearestIndex } from "./data";
 import { fmtBytes } from "./download";
+import { ICONS } from "./icons";
 import { climOf, fmtCycle, fmtLead, fmtMonth, fmtTime, type Labels } from "./labels";
 import { MapView } from "./map";
 import { renderNotes } from "./notes";
@@ -34,8 +35,6 @@ const STAT_BUTTONS: [string, string][][] = [
 ];
 const TH_HINT = "Click to select the time and height";
 const DAY_HINT = "Click to select the height";
-const ICON_PLAY = "M8 5v14l11-7z";
-const ICON_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
 
 type Panel = "map" | "profile" | "th" | "diurnal";
 export const PANELS: Panel[] = ["map", "profile", "th", "diurnal"];
@@ -511,7 +510,7 @@ export class Renderer {
     $("height-group").hidden = !data.profileVars.includes(s.variable);
     fill(timeInput);
     fill(heightInput);
-    $("play-icon").setAttribute("d", s.playing ? ICON_PAUSE : ICON_PLAY);
+    $("play-icon").setAttribute("d", s.playing ? ICONS.pause : ICONS.play);
     $("play").setAttribute("aria-label", s.playing ? "Pause" : "Play");
     for (const b of $("var-switch").querySelectorAll<HTMLButtonElement>("button")) {
       b.setAttribute("aria-pressed", String(b.dataset.name === s.variable));

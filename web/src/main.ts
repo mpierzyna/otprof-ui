@@ -8,6 +8,7 @@ import { loadConfig } from "./config";
 import { Climatology, Cycle, type Dataset, latestCycle, loadIndex, nearestIndex } from "./data";
 import { Downloads, fmtBytes, profileCsv } from "./download";
 import { climOf, fmtCycle, fmtMonth, Labels } from "./labels";
+import { showThirdPartyLicenses } from "./licenses";
 import { currentHour, loading, PANELS, Renderer } from "./render";
 import { BASE, isLicensePage, type Mode, parseLog, parseUrl, toUrl, type ViewRequest, viewLink } from "./router";
 import { type App, resolve, type State, Store } from "./state";
@@ -118,9 +119,10 @@ function showLicense(on: boolean) {
   $("license-page").hidden = !on;
   document.querySelector<HTMLElement>("main.layout")!.hidden = on;
   document.querySelector<HTMLElement>(".footer")!.hidden = on;
-  if (on)
-    for (const b of $("mode-tabs").querySelectorAll("button"))
-      b.setAttribute("aria-selected", String(b.dataset.page === "license"));
+  if (!on) return;
+  for (const b of $("mode-tabs").querySelectorAll("button"))
+    b.setAttribute("aria-selected", String(b.dataset.page === "license"));
+  void showThirdPartyLicenses($("third-party"));
 }
 const licenseShown = () => !$("license-page").hidden;
 
