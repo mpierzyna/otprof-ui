@@ -17,7 +17,16 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from otprof_ui.netcdf import ARTICLE, ERA5_REFERENCE, LICENSE, era5_acknowledgement, to_netcdf_atomic
+from otprof_ui.netcdf import (
+    ARTICLE,
+    CONVENTIONS,
+    CREATOR,
+    CREDIT,
+    ERA5_REFERENCE,
+    LICENSE,
+    era5_acknowledgement,
+    to_netcdf_atomic,
+)
 from otprof_ui.webui import RESOLUTION, quantize
 
 CLIM_FORMAT = "otprof-ui-clim/1"
@@ -210,11 +219,12 @@ def to_download(ds: xr.Dataset, kind: str, title: str) -> tuple[xr.Dataset, dict
         "source": f"SQF-H ({ds.attrs.get('model')} at {ds.attrs.get('model_revision')}) on ERA5 0.25°, 3-hourly{oqm}",
         "sample_months": ds.attrs["months"],
         "disclaimer": DISCLAIMER,
+        **CREATOR,
         "license": LICENSE,
         "acknowledgement": era5_acknowledgement(pd.Timestamp.now(tz="UTC").year),
         "references": f"{ARTICLE}; {ERA5_REFERENCE}",
         "history": f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%dT%H:%M:%SZ} otprof-ui, climatology/step_5_convert_webui.py",
-        "Conventions": "CF-1.8",
+        "Conventions": CONVENTIONS,
     }
     encoding = {}
     for name, rounding in DOWNLOAD_VARIABLES.items():
@@ -268,6 +278,7 @@ def write_climatology(
             "Sample": f"{len(months)} months, {min(months)} to {max(months)}",
         },
         # In the web app's CSV files
+        "credit": CREDIT,
         "license": LICENSE,
         "acknowledgement": era5_acknowledgement(pd.Timestamp.now(tz="UTC").year),
         "downloads": write_downloads({"monthly": monthly, "diurnal": diurnal}, part),

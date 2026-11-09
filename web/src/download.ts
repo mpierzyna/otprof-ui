@@ -16,7 +16,7 @@ const CSV_STATS = ["p5", "p25", "median", "p75", "p95", "mean", "lmean"];
 /** The profile of a log₁₀ variable at a step and cell as CSV, as the browser has it: one row per height, the statistics
  * in log₁₀ (`lcn2_<stat>`) and linear (`cn2_<stat>`). Linear, `mean` is the mean of the linear values (the log₁₀ `lmean`)
  * and `gmean` the geometric mean (the log₁₀ `mean`). Above the header, comment lines (`#`): `about` (what, when and
- * where), the license and the credit of the input data. Undefined until the step is loaded. */
+ * where), who made it and how to cite it, the license and the credit of the input data. Undefined until the step is loaded. */
 export function profileCsv(c: Climatology, name: string, step: number, cell: number, about: string): string | undefined {
   const stats = CSV_STATS.filter((k) => c.stats(name).includes(k));
   const columns = stats.map((k) => c.profile(name, step, cell, k));
@@ -32,6 +32,7 @@ export function profileCsv(c: Climatology, name: string, step: number, cell: num
   ]);
   const comments = [
     about,
+    ...(c.meta.credit ? [c.meta.credit] : []),
     ...(c.meta.license ? [`License of this OTProf product: ${c.meta.license}, terms of use: ${location.origin}${BASE}licenses`] : []), // fmt: skip
     ...(c.meta.acknowledgement ? [c.meta.acknowledgement] : []),
   ].map((line) => `# ${line}`);

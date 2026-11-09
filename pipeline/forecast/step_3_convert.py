@@ -32,7 +32,7 @@ from shared import (
 )
 
 from otprof_ui.config import setup_logging
-from otprof_ui.netcdf import ARTICLE, GFS_ACKNOWLEDGEMENT, LICENSE
+from otprof_ui.netcdf import ARTICLE, CONVENTIONS, CREATOR, GFS_ACKNOWLEDGEMENT, LICENSE
 from otprof_ui.webui import data_root_lock, write_cycle, write_index
 
 VARIABLES = ["lcn2", "r0", "lsi2"]  # exported, in this order (the app shows them in this order)
@@ -96,11 +96,12 @@ def to_download(ds: xr.Dataset, cycle: pd.Timestamp, oqm: bool) -> tuple[xr.Data
         "source": f"SQF-H ({sqf_h.HF_REPO_ID} at {sqf_h.HF_REVISION}) on GFS 0.25° cycle {cycle:%Y-%m-%d %H} UTC"
         + (", output quantile mapping nl-oQM" if oqm else ""),
         "disclaimer": DISCLAIMER,
+        **CREATOR,
         "license": LICENSE,
         "acknowledgement": GFS_ACKNOWLEDGEMENT,
         "references": ARTICLE,
         "history": f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%dT%H:%M:%SZ} otprof-ui, forecast/step_3_convert.py",
-        "Conventions": "CF-1.8",
+        "Conventions": CONVENTIONS,
     }
     chunks = (1, out.sizes["z"], out.sizes["lat"], out.sizes["lon"])  # one lead time per chunk
     encoding = {v: {"zlib": True, "complevel": 4, "shuffle": True, "chunksizes": chunks} for v in ["lcn2"]}

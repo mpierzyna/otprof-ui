@@ -10,9 +10,19 @@ import xarray as xr
 
 LICENSE = "CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)"  # of the data for download
 
+# The author of the OTProf products, in the files for download (ACDD global attributes) and, for the climatology, in its
+# meta.json for the web app's CSV files (`CREDIT`)
+CREATOR = {
+    "creator_name": "Maximilian Pierzyna",
+    "creator_url": "https://mpier.eu",
+    "creator_type": "person",
+    "institution": "Technische Universiteit Delft",
+}
+CONVENTIONS = "CF-1.8, ACDD-1.3"
+
 # Credits of the input data and references, in the files for download (global attributes `acknowledgement` and
 # `references`) and, for the climatology, in its meta.json for the web app's CSV files. The same as on the web app's
-# Licenses page (web/content/license.md).
+# Licenses page (web/content/licenses.md).
 ARTICLE = (
     "Pierzyna, M., Basu, S., Saathof, R. (2026): OTProf: estimating high-resolution profiles of optical turbulence (Cn2) "
     "from reanalysis using deep learning. arXiv, doi:10.48550/arXiv.2604.09346"
@@ -20,6 +30,10 @@ ARTICLE = (
 ERA5_REFERENCE = (
     "Hersbach, H. et al. (2023): ERA5 hourly data on pressure levels from 1940 to present. Copernicus Climate Change "
     "Service (C3S) Climate Data Store (CDS), doi:10.24381/cds.bd0915c6"
+)
+CREDIT = (
+    f"Created by {CREATOR['creator_name']} ({CREATOR['creator_url']}), {CREATOR['institution']}. "
+    "Please cite Pierzyna, Basu, and Saathof (2026), doi:10.48550/arXiv.2604.09346"
 )
 GFS_ACKNOWLEDGEMENT = (
     "Derived from NOAA Global Forecast System (GFS) data (https://registry.opendata.aws/noaa-gfs-bdp-pds/). The original "

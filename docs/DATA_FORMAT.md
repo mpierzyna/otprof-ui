@@ -76,7 +76,7 @@ data/
 | `z_agl` | heights [m above ground], increasing. Needed if any variable has the dimension `z`. |
 | `info` | optional, shown as key-value pairs in the app. |
 | `notes` | optional, notes on this cycle as plain text (paragraphs separated by blank lines), shown below the text of the forecast (`web/content/forecast.md`). |
-| `download` | optional, a file of this cycle the app offers for download (`file`, size in `bytes`), after a disclaimer. The forecast pipeline writes the forecast as CF NetCDF: `lcn2` (time, z, lat, lon), `r0`, `lsi2` (time, lat, lon), float32, compressed, lcn2 rounded to 0.001, licence CC BY-SA 4.0, with the credit of the GFS data and the references in the global attributes `acknowledgement` and `references`. |
+| `download` | optional, a file of this cycle the app offers for download (`file`, size in `bytes`), after a disclaimer. The forecast pipeline writes the forecast as CF NetCDF: `lcn2` (time, z, lat, lon), `r0`, `lsi2` (time, lat, lon), float32, compressed, lcn2 rounded to 0.001, licence CC BY-SA 4.0, with the author (ACDD `creator_name`, `creator_url`, `creator_type`, `institution`), the credit of the GFS data and the references in the global attributes `acknowledgement` and `references`. |
 | `variables` | the fields. The app shows them in this order. |
 
 Per variable:
@@ -134,6 +134,7 @@ Statistics per calendar month, written by `pipeline/src/otprof_ui/webui.py` (`wr
 | `years` | per month, the years in the sample (shown in the app: months from few years are less representative). |
 | `periods` | optional, statistics of one hour per day besides those of all hours (`day`, `night`): `utc_hour` the hour of `hours` used. If set, the app offers *All hours*, *Day*, *Night*; see `periods` per variable. |
 | `downloads` | optional, the statistics as files for download, after a disclaimer: `label`, `file`, size in `bytes`; see below. |
+| `credit` | optional, who made the climatology and how to cite it (one line of text): the app writes it into the CSV files of profiles. |
 | `license` | optional, the license of the climatology (one line of text): the app writes it into the CSV files of profiles. |
 | `acknowledgement` | optional, the credit of the input data (ERA5), one line of text: the app writes it into the CSV files of profiles. |
 | `stats` | all statistics, in the order the app offers them. `median`, `mean`, `pN` (Nth percentile); `lmean` is the log10 of the mean of the linear values of a log10 variable (lcn2, lsi2; `mean` is the mean of the log10 values, the log10 of the geometric mean). The app shows `lmean` as the mean when it shows such a variable linearly (10^value); the percentiles are the same in both scales. The app needs `p5`, `p25`, `p75`, `p95` for the bands. |
@@ -156,7 +157,7 @@ Per variable, in addition to the cycle keys:
 
 ### Files for download
 
-`otprof-clim_monthly_EXPERIMENTAL.nc` and `otprof-clim_diurnal_EXPERIMENTAL.nc`, listed in `downloads`: CF NetCDF of the whole domain, compressed, licence CC BY-SA 4.0, with the credit of the ERA5 data and the references in the global attributes `acknowledgement` and `references`. With `lat`, `lon` and `z` (height above ground [m]) increasing:
+`otprof-clim_monthly_EXPERIMENTAL.nc` and `otprof-clim_diurnal_EXPERIMENTAL.nc`, listed in `downloads`: CF NetCDF of the whole domain, compressed, licence CC BY-SA 4.0, with the author (ACDD `creator_name`, `creator_url`, `creator_type`, `institution`), the credit of the ERA5 data and the references in the global attributes `acknowledgement` and `references`. With `lat`, `lon` and `z` (height above ground [m]) increasing:
 
 | variable | monthly | diurnal |
 |---|---|---|

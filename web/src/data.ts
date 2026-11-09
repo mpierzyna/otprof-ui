@@ -64,6 +64,7 @@ export interface ClimMeta extends GridMeta {
   stats: string[]; // all statistics, in the order offered
   periods?: Record<string, { utc_hour: number }>; // day, night
   downloads?: { label: string; file: string; bytes: number }[]; // the statistics as files for download (NetCDF)
+  credit?: string; // who made the OTProf products and how to cite them, in the CSV files
   license?: string; // of the OTProf products, in the CSV files
   acknowledgement?: string; // credit of the input data, in the CSV files
 }
