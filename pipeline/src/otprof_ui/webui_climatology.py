@@ -267,7 +267,9 @@ def write_climatology(
             **({"Correction": "nl-oQM"} if monthly.attrs.get("otprof_oqm") else {}),
             "Sample": f"{len(months)} months, {min(months)} to {max(months)}",
         },
-        "acknowledgement": era5_acknowledgement(pd.Timestamp.now(tz="UTC").year),  # in the web app's CSV files
+        # In the web app's CSV files
+        "license": LICENSE,
+        "acknowledgement": era5_acknowledgement(pd.Timestamp.now(tz="UTC").year),
         "downloads": write_downloads({"monthly": monthly, "diurnal": diurnal}, part),
         "variables": variables,
     }

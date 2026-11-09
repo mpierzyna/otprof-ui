@@ -154,8 +154,6 @@ async function main() {
   setupStickyControls();
   const index = await loadIndex(config.dataUrl);
   const climUrl = index.climatology ? new URL(index.climatology, config.dataUrl).href : undefined;
-  // Links from before the paths (#mode=clim&..) go to the landing page
-  if (location.hash) history.replaceState(null, "", BASE);
   const asked = parseUrl();
 
   // The forecast cycle and the climatology are kept once loaded; `app.data` is the one shown
@@ -270,13 +268,13 @@ async function main() {
     const name = labels.profileVar(s);
     if (!c || !name) return;
     const period = labels.periodLabel(c) && ` (${labels.periodLabel(c)})`;
-    const about = `OTProf climatology: profile of ${labels.label(name)} at ${labels.cellLabel(s.cell)} in ${fmtMonth(c.times[s.step])}${period}`; // fmt: skip
-    const csv = profileCsv(c, name, s.step, s.cell, about);
+    const where = `at ${labels.cellLabel(s.cell)} in ${fmtMonth(c.times[s.step])}${period}`;
+    const csv = profileCsv(c, name, s.step, s.cell, `OTProf climatology: profile of ${labels.label(name)} ${where}`);
     if (!csv) return;
     const [lat, lon] = [c.lat[Math.floor(s.cell / c.nlon)], c.lon[s.cell % c.nlon]];
     const month = String(c.meta.months[s.step]).padStart(2, "0");
     const file = `otprof-clim_${name.replace(/^l/, "")}_lat${lat.toFixed(2)}_lon${lon.toFixed(2)}_m${month}_${c.period}_EXPERIMENTAL.csv`; // fmt: skip
-    const what = `The Cₙ² profile at ${labels.cellLabel(s.cell)} in ${fmtMonth(c.times[s.step])}${labels.periodLabel(c) && ` (${labels.periodLabel(c)})`} as a CSV file, with the statistics shown here. All statistics, at a higher precision: the NetCDF files of the climatology.`; // fmt: skip
+    const what = `The Cₙ² profile ${where} as a CSV file, with the statistics shown here. All statistics, at a higher precision: the NetCDF files of the climatology.`; // fmt: skip
     downloads.ask(what, [{ url: downloads.textUrl(csv, "text/csv"), file, label: "Download" }]);
   });
   const fillCycles = () => cycleSelect.replaceChildren(...app.index.cycles.map((id) => new Option(fmtCycle(id), id)));
@@ -319,7 +317,12 @@ async function main() {
     if (!st().playing) return;
     playTimer = window.setTimeout(async () => {
       const next = st().step + 1 < app.data.times.length ? st().step + 1 : app.firstStep;
-      await app.data.loadStep(next);
+      try {
+        await app.data.loadStep(next);
+      } catch (e) {
+        console.warn("Playback stopped, loading the next step failed:", e);
+        return store.set({ playing: false });
+      }
       if (st().playing) {
         store.set({ step: next });
         schedulePlay();
@@ -448,14 +451,9 @@ async function main() {
     render.controls();
     void followUrl();
   }
-  // Links from before the paths (#mode=clim&..) go to the landing page, also while the page is open (a change of the hash
-  // is a popstate too)
-  addEventListener("popstate", () => {
-    if (location.hash) history.replaceState(null, "", BASE);
-    route();
-  });
+  addEventListener("popstate", route);
   // Links to views in the notes: without loading the page again. Links within the page (footnotes): scrolled to, the URL
-  // stays (a # in the URL would lead to the landing page, see popstate)
+  // stays (no history entry for each footnote)
   document.addEventListener("click", (e) => {
     const a = (e.target as Element).closest?.("a[href]");
     const href = a?.getAttribute("href") ?? "";

@@ -32,7 +32,7 @@ function devData(): Plugin {
   return { name: "dev-data", configureServer: serve, configurePreviewServer: serve };
 }
 
-// The bundled software with its licenses (license page) exists only in a build (build.license below): the dev server
+// The bundled software with its licenses (licenses page) exists only in a build (build.license below): the dev server
 // serves the one of the last build in dist/, if any (npm run build to update it)
 const THIRD_PARTY = "third-party-licenses.json";
 function devLicenses(): Plugin {

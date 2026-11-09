@@ -132,8 +132,9 @@ Statistics per calendar month, written by `pipeline/src/otprof_ui/webui.py` (`wr
 | `months` | calendar months (1 to 12), the steps of the time axis. |
 | `hours` | hours [UTC] of the diurnal cycle. |
 | `years` | per month, the years in the sample (shown in the app: months from few years are less representative). |
-| `periods` | optional, statistics of one hour per day besides those of all hours (`day`, `night`): `utc_hour` the hour of `hours` used. If set, the app offers *Global*, *Day*, *Night*; see `periods` per variable. |
+| `periods` | optional, statistics of one hour per day besides those of all hours (`day`, `night`): `utc_hour` the hour of `hours` used. If set, the app offers *All hours*, *Day*, *Night*; see `periods` per variable. |
 | `downloads` | optional, the statistics as files for download, after a disclaimer: `label`, `file`, size in `bytes`; see below. |
+| `license` | optional, the license of the climatology (one line of text): the app writes it into the CSV files of profiles. |
 | `acknowledgement` | optional, the credit of the input data (ERA5), one line of text: the app writes it into the CSV files of profiles. |
 | `stats` | all statistics, in the order the app offers them. `median`, `mean`, `pN` (Nth percentile); `lmean` is the log10 of the mean of the linear values of a log10 variable (lcn2, lsi2; `mean` is the mean of the log10 values, the log10 of the geometric mean). The app shows `lmean` as the mean when it shows such a variable linearly (10^value); the percentiles are the same in both scales. The app needs `p5`, `p25`, `p75`, `p95` for the bands. |
 

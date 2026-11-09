@@ -64,6 +64,7 @@ export interface ClimMeta extends GridMeta {
   stats: string[]; // all statistics, in the order offered
   periods?: Record<string, { utc_hour: number }>; // day, night
   downloads?: { label: string; file: string; bytes: number }[]; // the statistics as files for download (NetCDF)
+  license?: string; // of the OTProf products, in the CSV files
   acknowledgement?: string; // credit of the input data, in the CSV files
 }
 
@@ -184,10 +185,16 @@ export abstract class Dataset {
           arrs[step] = decode(await this.fetchBin(v.files![step]), v);
           if (this.whole.size === 0) this.markValid(arrs[step]!);
         }),
-      ).then(() => {
-        this.pending.delete(step);
-        this.listeners.forEach((f) => f(step));
-      });
+      ).then(
+        () => {
+          this.pending.delete(step);
+          this.listeners.forEach((f) => f(step));
+        },
+        (e: unknown) => {
+          this.pending.delete(step); // tried again on the next call
+          throw e;
+        },
+      );
       this.pending.set(step, p);
     }
     return p;
@@ -199,12 +206,14 @@ export abstract class Dataset {
     for (let k = 0; k < arr.length; k++) if (!Number.isNaN(arr[k])) this.valid[k % n] = 1;
   }
 
-  /** All steps from `from` on, starting at `first` and wrapping around. */
+  /** All steps from `from` on, starting at `first` and wrapping around. A step that fails is skipped (logged; loaded
+   * again when it is shown), the others go on. */
   async loadAll(first: number, from = 0) {
     const n = this.times.length - from;
     const order = Array.from({ length: n }, (_, k) => from + ((first - from + k) % n));
     const worker = async () => {
-      for (let step = order.shift(); step !== undefined; step = order.shift()) await this.loadStep(step);
+      for (let step = order.shift(); step !== undefined; step = order.shift())
+        await this.loadStep(step).catch((e: unknown) => console.warn(`${this.id}: loading step ${step} failed:`, e));
     };
     await Promise.all(Array.from({ length: N_PARALLEL }, worker));
   }
@@ -353,7 +362,6 @@ export class Climatology extends Dataset {
     }
     return p;
   }
-
 
   static async open(url: string): Promise<Climatology> {
     const base = url.endsWith("/") ? url : `${url}/`;

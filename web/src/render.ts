@@ -153,7 +153,10 @@ export class Renderer {
     const step = nearestIndex(c.meta.months, data.times[s.step].getUTCMonth() + 1);
     if (cell < 0) return undefined;
     if (!c.hasStep(step)) {
-      void loading(["profile"], c.loadStep(step)).then(() => this.app.data instanceof Cycle && this.profile());
+      void loading(["profile"], c.loadStep(step)).then(
+        () => this.app.data instanceof Cycle && this.profile(),
+        (e) => console.warn("Loading the climatology behind the profile failed:", e), // tried again on the next draw
+      );
       return undefined;
     }
     const band = (lo: string, hi: string) => ({ z: c.z, lo: c.profile(name, step, cell, lo)!, hi: c.profile(name, step, cell, hi)! }); // fmt: skip
@@ -589,7 +592,8 @@ export class Renderer {
   update(changed: Set<Key>) {
     const s = this.s;
     const any = (...keys: Key[]) => keys.some((k) => changed.has(k));
-    if (any("step")) void loading(["map", "profile"], this.data.loadStep(s.step));
+    if (any("step"))
+      loading(["map", "profile"], this.data.loadStep(s.step)).catch((e) => console.warn("Loading this step failed:", e));
     if (any("variable", "step", "zi", "colourPerHeight", "stat", "logValues")) this.map();
     if (any("cell")) this.mapView.setSelection(s.cell);
     if (any("variable", "step", "zi", "cell", "heightScale", "stat", "logValues")) this.profile();

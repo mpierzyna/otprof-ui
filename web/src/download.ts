@@ -32,7 +32,7 @@ export function profileCsv(c: Climatology, name: string, step: number, cell: num
   ]);
   const comments = [
     about,
-    `License of this OTProf product: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), terms of use: ${location.origin}${BASE}licenses`,
+    ...(c.meta.license ? [`License of this OTProf product: ${c.meta.license}, terms of use: ${location.origin}${BASE}licenses`] : []), // fmt: skip
     ...(c.meta.acknowledgement ? [c.meta.acknowledgement] : []),
   ].map((line) => `# ${line}`);
   return `${[...comments, ...[header, ...rows].map((row) => row.join(","))].join("\n")}\n`;

@@ -235,63 +235,6 @@ input {
   margin-left: auto;
   font-size: 13px;
 }
-.page-text h2:first-child {
-  font-size: 22px;
-}
-.page {
-  padding: 20px 32px;
-}
-/* The page's one card, centred: the width of the screen on phones, at most 820 px (920 px on wide screens); the text
-   fills it (.markdown: over its 80ch) */
-.page-text.markdown {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 4px 32px 24px;
-}
-@media (min-width: 1700px) {
-  .page-text.markdown {
-    max-width: 920px;
-  }
-}
-/* The software bundled into the app (src/licenses.ts): one collapsible entry per package with its license file */
-.license-entry {
-  border-top: 1px solid var(--border);
-}
-.license-entry:last-child {
-  border-bottom: 1px solid var(--border);
-}
-.license-entry summary {
-  padding: 7px 2px;
-  cursor: pointer;
-}
-.license-entry summary:hover {
-  background: var(--hover);
-}
-.license-id {
-  float: right;
-  margin-left: 12px;
-  color: var(--text-2);
-  font-size: 13px;
-}
-.license-entry pre {
-  margin: 0 0 12px;
-  padding: 10px 12px;
-  max-height: 360px;
-  overflow: auto;
-  border-radius: var(--radius-s);
-  background: var(--panel-2);
-  font-size: 12px;
-  line-height: 1.45;
-  white-space: pre-wrap;
-}
-@media (max-width: 860px) {
-  .page {
-    padding: 12px;
-  }
-  .page-text.markdown {
-    padding: 4px 16px 16px;
-  }
-}
 .progress {
   height: 2px;
   overflow: hidden;
@@ -331,6 +274,51 @@ input {
     "th th"
     "diurnal diurnal";
 }
+/* Licenses page (/licenses): one card instead of the panels */
+.page-text h2:first-child {
+  font-size: 22px;
+}
+.page {
+  padding: 20px 32px;
+}
+/* The page's one card, centred: the width of the screen on phones, at most 820 px (920 px on wide screens); the text
+   fills it (.markdown: over its 80ch) */
+.page-text.markdown {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 4px 32px 24px;
+}
+/* The software bundled into the app (src/licenses.ts): one collapsible entry per package with its license file */
+.license-entry {
+  border-top: 1px solid var(--border);
+}
+.license-entry:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.license-entry summary {
+  padding: 7px 2px;
+  cursor: pointer;
+}
+.license-entry summary:hover {
+  background: var(--hover);
+}
+.license-id {
+  float: right;
+  margin-left: 12px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+.license-entry pre {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  max-height: 360px;
+  overflow: auto;
+  border-radius: var(--radius-s);
+  background: var(--panel-2);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
 /* Annual and diurnal cycle side by side: 12 months and 8 hours in the 3 : 2 of the columns, boxes of the same width */
 @media (min-width: 1200px) {
   .layout.clim .panels {
@@ -350,10 +338,15 @@ input {
   .notes-panel {
     align-self: stretch;
   }
+  .page-text.markdown {
+    max-width: 920px;
+  }
 }
 @media (max-width: 860px) {
+  /* Narrow: the logo only next to the title, the subtitle below over the full width */
   .page-header {
     padding: 24px 16px 4px;
+    column-gap: 10px;
   }
   .theme-switch {
     top: 10px;
@@ -361,10 +354,6 @@ input {
   }
   #title {
     font-size: 28px;
-  }
-  /* Narrow: the logo only next to the title, the subtitle below over the full width */
-  .page-header {
-    column-gap: 10px;
   }
   .page-header .brand-logo {
     grid-row: 1;
@@ -389,6 +378,12 @@ input {
     gap: 12px;
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "map" "profile" "th" "diurnal";
+  }
+  .page {
+    padding: 12px;
+  }
+  .page-text.markdown {
+    padding: 4px 16px 16px;
   }
 }
 
@@ -714,12 +709,6 @@ html {
 }
 
 /* Fields: a muted label before a compact select */
-.field-group {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
 @media (min-width: 861px) {
   #cycle-group {
     margin-left: auto; /* the forecast run at the right end of the row */
