@@ -1,19 +1,20 @@
-## About
+### How it is made
 
-Live forecasts and climatology of optical turbulence profiles ($C_n^2$) and column-integrated
-parameters (Fried parameter $r_0$ and scintillation index $\sigma_I^2$) over the Netherlands
-produced by the deep learning model OTProf.
+This website shows live forecasts and a climatology of optical turbulence profiles ($C_n^2$) and column-integrated
+parameters (Fried parameter $r_0$ and scintillation index $\sigma_I^2$) over the Netherlands, estimated by the deep
+learning model OTProf. The OTProf system is composed of the following three packages:
 
-OTProf takes pressure level data from GFS (forecast) or ERA5 (climatology) as input and estimates $C_n^2$ profiles from it.
-The $C_n^2$ profiles for training are produced by the Weather Research and Forecasting (WRF) model.
+1. [**otprof-wrf**](https://github.com/mpierzyna/otprof-wrf): Code and config files to generate $C_n^2$ training data
+   by post-processing output from the [Weather Research and Forecasting (WRF) model](https://github.com/wrf-model/wrf)
+   with the variance-based $C_n^2$ parameterization of [He and Basu (2015)](https://doi.org/10.1117/12.2188227).
+2. [**otprof**](https://github.com/mpierzyna/otprof): Code for training and inference of the OTProf deep learning model.
+3. [**otprof-ui**](https://github.com/mpierzyna/otprof-ui): Code of the web UI to show OTProf-based $C_n^2$ forecasts
+   and climatology, i.e. this website, and of the pipelines that compute them from GFS and ERA5.
 
-For more details, please check:
+The method and its performance are described in
+[📄 Pierzyna, Basu, Saathof (2026, preprint)](https://arxiv.org/abs/2604.09346).
 
-- [Pierzyna, Basu, Saathof (2026, preprint)](https://arxiv.org/abs/2604.09346): Methodology description and performance discussion.
-- [OTProf](https://github.com/mpierzyna/otprof): Python code to run and train deep learning model.
-- [OTProf WRF](https://github.com/mpierzyna/otprof-wrf): WRF setup to generate $C_n^2$ training dataset.
-- [OTProf UI](https://github.com/mpierzyna/otprof-ui): GFS pipeline, climatology pipeline, this web UI.
-
-**All data on this website is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) which excludes any warranty.**
-
-Copyright: Maximilian Pierzyna (2026)
+### Licenses and terms of use
+The OTProf data products (forecasts and climatology) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), which
+excludes any warranty. See [Licenses](/licenses) for the full details of how you may use them, and for the third-party
+data and software they build on.

@@ -1,6 +1,7 @@
-## GFS-based forecasts
-Forecasts are produced by postprocessing the output of the [Global Forecast System (GFS)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) with OTProf.
-GFS forecasts are available live and for free. 
+### → Live forecasts of optical turbulence over the Netherlands
+
+Optical turbulence forecasts are produced by postprocessing the output of the [Global Forecast System (GFS)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) with OTProf.
+GFS forecasts are available live and for free (see [Licenses](/licenses) for details).
 A new GFS forecast is produced four times a day (00 UTC, 06 UTC, 12 UTC, 18 UTC), with 16 days lead time.
 Here, we utilize only the first five forecast days (120 hours).
 The website updates automatically whenever a new GFS run becomes available, and the `Forecast run` selector allows switching between them.

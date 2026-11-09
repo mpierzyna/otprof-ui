@@ -44,7 +44,7 @@ ERA5 (one-off)  ──► pipeline/climatology/ ──┘    docs/DATA_FORMAT.md
 
 ```
 web/          the web app (Vite + TypeScript, MapLibre GL, d3)
-  content/    texts of the app as markdown (title, disclaimer, about, license), see web/content/README.md
+  content/    texts of the app as markdown (title, disclaimer, about, licenses), see web/content/README.md
   public/     config.json: variables (labels, units, colour maps), defaults of the view
 pipeline/     the pipelines writing the data, see pipeline/README.md
   forecast/     GFS forecasts, every 6 h
@@ -88,7 +88,7 @@ The app needs WebGL (MapLibre). The basemap is Natural Earth 1:10m, cut to the r
 `web/scripts/make_basemap.mjs` (widen it for larger domains); it is generated before `dev` and `build`.
 
 **Texts:** edit the markdown in `web/content/` (rendered into `index.html` at build time). Notes of a single forecast
-run come from its `meta.json` (`"notes"`). Links like `[text](/forecast/r0?lat=52&lon=5&z=1000&t=12)` set the view.
+run come from its `meta.json` (`"notes"`, plain text). Links like `[text](/forecast/r0?lat=52&lon=5&z=1000&t=12)` set the view.
 
 ## Deployment
 
@@ -120,7 +120,7 @@ To test the image locally with the pipelines' data: link or copy `pipeline/data/
 
 ### Paths
 
-The app has paths of its own (`/forecast/..`, `/climatology/..`, `/license`), which the web server answers with
+The app has paths of its own (`/forecast/..`, `/climatology/..`, `/licenses`), which the web server answers with
 `index.html` (`nginx.conf`), so it is served from the root of its host. For a subdirectory: build with
 `OTPROF_BASE=/otprof/` and adjust the routes in `nginx.conf`.
 
@@ -160,11 +160,15 @@ The data shown on the website are licensed separately, under CC BY-SA 4.0 (see t
 
 The icons of the web app ([`web/src/icons.ts`](web/src/icons.ts)) are [Material Icons](https://github.com/google/material-design-icons)
 by Google, licensed under the Apache License 2.0 (see [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt)); some of
-their paths are written in a shorter form.
+their paths are written in a shorter form. The GitHub mark before the links to the OTProf repositories
+([`web/src/github-mark.svg`](web/src/github-mark.svg)) is from GitHub's [Octicons](https://github.com/primer/octicons),
+licensed under the MIT License (see [`LICENSES/MIT.txt`](LICENSES/MIT.txt)).
 
-The built web app also contains open-source packages from npm (MapLibre GL JS, d3, marked, DOMPurify, the Inter font),
-each under its own license. The build lists them with their license texts (`third-party-licenses.json`, written by
-Vite), and the Licenses page of the website shows that list.
+The built web app also contains open-source packages from npm (MapLibre GL JS, d3, the Inter font), each under its
+own license: the build lists them with their license texts (`third-party-licenses.json`, written by Vite), and the
+Licenses page of the website shows that list. The basemap is generated at build time from
+[Natural Earth](https://www.naturalearthdata.com) (public domain) via [world-atlas](https://github.com/topojson/world-atlas)
+(ISC); the Licenses page credits it under its third-party assets.
 
 ## Copyright notice
 

@@ -12,7 +12,7 @@ import { fmtBytes } from "./download";
 import { ICONS } from "./icons";
 import { climOf, fmtCycle, fmtLead, fmtMonth, fmtTime, type Labels } from "./labels";
 import { MapView } from "./map";
-import { renderNotes } from "./notes";
+import { showNotes } from "./notes";
 import { type BoxStats, formatHeight, ProfileView, type Steps, TimeHeightView, type Violins } from "./plots";
 import type { App, Key, State } from "./state";
 
@@ -235,10 +235,15 @@ export class Renderer {
       dd.textContent = v;
       info.append(dt, dd);
     }
+    // The months in the climatology's sample, in its text (content/climatology.md: <span data-clim-months>)
+    if (c) {
+      const months = String(c.meta.years.reduce((n, years) => n + years.length, 0));
+      for (const el of document.querySelectorAll("[data-clim-months]")) el.textContent = months;
+    }
     // The texts of the page (content/) and the notes of the data, if any
     $("notes-live").hidden = !!c;
     $("notes-clim").hidden = !c;
-    void renderNotes($("notes-data"), data.notes ? [new URL(data.notes, data.base).href] : []);
+    showNotes($("notes-data"), data.notes);
     if (this.hooked.has(data)) return;
     this.hooked.add(data);
     data.onStep((step) => {
@@ -529,7 +534,7 @@ export class Renderer {
     newer.title = `A newer forecast is available (${fmtCycle(latest)}): show it`;
     this.live();
     this.csvButton();
-    if ($("license-page").hidden) // else the license tab (main.ts)
+    if ($("licenses-page").hidden) // else the licenses tab (main.ts)
       for (const b of $("mode-tabs").querySelectorAll("button"))
         b.setAttribute("aria-selected", String(b.dataset.mode === s.mode));
     const c = climOf(data);

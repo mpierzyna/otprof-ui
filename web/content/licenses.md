@@ -34,4 +34,6 @@ OTProf UI ships the following third-party assets:
   [world-atlas](https://github.com/topojson/world-atlas), Copyright 2013-2019 Michael Bostock, ISC license.
 - **Icons**: [Material Icons](https://github.com/google/material-design-icons) by Google, licensed under the
   [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+- **GitHub mark**: from [Octicons](https://github.com/primer/octicons), Copyright 2026 GitHub Inc., licensed under the
+  [MIT License](https://github.com/primer/octicons/blob/main/LICENSE).
 - **Formulas**: typeset with [MathJax](https://www.mathjax.org) (Apache License 2.0) when the page is built.

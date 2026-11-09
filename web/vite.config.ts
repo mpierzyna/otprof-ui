@@ -4,7 +4,8 @@
 
 import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
-import { Marked, type MarkedExtension, type Token } from "marked";
+import { Marked, type MarkedExtension, type Token, type TokensList } from "marked";
+import markedFootnote from "marked-footnote";
 import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
 import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
 import { TeX } from "mathjax-full/js/input/tex.js";
@@ -51,8 +52,8 @@ function devLicenses(): Plugin {
 // Texts of the app (content/*.md, see content/README.md) rendered into index.html at build time:
 // <!--content:NAME--> the markdown of content/NAME.md, <!--content:NAME:inline--> as inline markdown (title),
 // <!--content:NAME:text--> as plain text (<title>), <!--content:NAME:heading--> its first heading (inline) and
-// <!--content:NAME:body--> the rest. Links not starting with /forecast, /climatology (those set the view) or /license open in
-// a new tab.
+// <!--content:NAME:body--> the rest. Links not starting with /forecast, /climatology (those set the view), /licenses or #
+// (footnotes, [^1]) open in a new tab. All markdown is rendered here: the app ships no markdown renderer.
 const CONTENT = resolve(__dirname, "content");
 
 // LaTeX in the texts: $...$ inline, $$...$$ displayed, rendered by MathJax to SVG at build time (no fonts or scripts in
@@ -78,7 +79,10 @@ function math(): MarkedExtension {
     ],
   };
 }
-const marked = new Marked(math());
+const MATH = math();
+// A new parser per text: footnotes ([^1], marked-footnote) keep state, and their ids get the text's name as prefix, so
+// that two texts in the page (forecast, climatology) do not share ids
+const markedFor = (name: string) => new Marked(MATH, markedFootnote({ prefixId: `fn-${name}-` }));
 
 // Icons (src/icons.ts: Material Icons, Apache-2.0) into index.html: <!--icon:NAME--> the <path> of the icon, <!--icon:NAME#ID-->
 // with that id
@@ -89,16 +93,23 @@ function icon(name: string, id?: string) {
 }
 
 function content(): Plugin {
-  const external = (html: string) => html.replace(/<a href="(?!\/(?:forecast|climatology|license)\b)/g, '<a target="_blank" rel="noopener noreferrer" href="');
-  const parse = (tokens: Token[]) => external(marked.parser(tokens));
-  const inline = (md: string) => external(marked.parseInline(md.trim(), { async: false }));
+  // Links within the page (#: footnotes) and to the app's own paths stay in the page
+  const external = (html: string) => html.replace(/<a href="(?!\/(?:forecast|climatology|licenses)\b|#)/g, '<a target="_blank" rel="noopener noreferrer" href="');
   const render = (name: string, part = "") => {
     const md = readFileSync(resolve(CONTENT, `${name}.md`), "utf-8");
-    const tokens = marked.lexer(md);
+    const marked = markedFor(name);
+    if (part === "inline") return external(marked.parseInline(md.trim(), { async: false }));
+    if (part === "text") return marked.parseInline(md.trim(), { async: false }).replace(/<[^>]*>/g, "");
+    const lexed = marked.lexer(md);
+    // The footnotes come first from the lexer (marked.parse moves them, the lexer alone does not): to the end
+    const notes = lexed.filter((t) => t.type === "footnotes");
+    const tokens = [...lexed.filter((t) => t.type !== "footnotes"), ...notes];
+    // Without the links from a footnote back to its markers (↩): the texts are short, and a footnote used several times
+    // gets one per use
+    const parse = (ts: Token[]) =>
+      external(marked.parser(Object.assign(ts, { links: lexed.links }) as TokensList)).replace(/\s*<a [^>]*data-fn-[\w-]+-backref[^>]*>[\s\S]*?<\/a>/g, ""); // fmt: skip
     const k = tokens.findIndex((t) => t.type === "heading");
-    if (part === "inline") return inline(md);
-    if (part === "text") return inline(md).replace(/<[^>]*>/g, "");
-    if (part === "heading") return k < 0 ? "" : inline((tokens[k] as Token & { text: string }).text);
+    if (part === "heading") return k < 0 ? "" : external(marked.parseInline((tokens[k] as Token & { text: string }).text, { async: false })); // fmt: skip
     if (part === "body") return parse(tokens.filter((_, i) => i !== k));
     if (part) throw new Error(`content:${name}:${part}: unknown part`);
     return parse(tokens);
@@ -116,12 +127,12 @@ function content(): Plugin {
   };
 }
 
-// The app has paths of its own (/forecast/.., /climatology/.., /license), so its files have absolute URLs: it is served from the root
+// The app has paths of its own (/forecast/.., /climatology/.., /licenses), so its files have absolute URLs: it is served from the root
 // of the web server, or from OTPROF_BASE (e.g. /otprof/, then adjust the routes in nginx.conf too).
 // Dev server on another interface (e.g. to open it on a phone):  npm run dev -- --host <ip>
 export default defineConfig({
   base: process.env.OTPROF_BASE ?? "/",
-  // The software bundled into the app, with its licenses: shown on the license page (src/licenses.ts)
+  // The software bundled into the app, with its licenses: shown on the licenses page (src/licenses.ts)
   build: { chunkSizeWarningLimit: 1500, license: { fileName: THIRD_PARTY } },
   server: { port: 5173, strictPort: true },
   preview: { port: 4173, strictPort: true },

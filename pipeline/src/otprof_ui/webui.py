@@ -59,7 +59,8 @@ def write_cycle(
     download: str | None = None,
 ) -> pathlib.Path:
     """Write `ds` as cycle `cycle_id` (directory name) initialised at `cycle` (UTC) below `data_root`, as uint16 with
-    scale and offset from the data range per variable (scale `RESOLUTION` if there). `notes`: markdown of the cycle.
+    scale and offset from the data range per variable (scale `RESOLUTION` if there). `notes`: plain text of the cycle
+    (paragraphs separated by blank lines).
     `download`: name of a file in the cycle directory (written before) that the app offers for download.
 
     `ds`: coords lead (hours), z (m above ground, if any variable has it), lat, lon (increasing); variables
@@ -101,8 +102,7 @@ def write_cycle(
     if "z" in ds.coords:
         meta["z_agl"] = [round(float(v), 2) for v in ds["z"].values]
     if notes is not None:
-        (out / "notes.md").write_text(notes)
-        meta["notes"] = "notes.md"
+        meta["notes"] = notes
     if download is not None:
         meta["download"] = {"file": download, "bytes": (out / download).stat().st_size}
     # meta.json last: a cycle directory with meta.json is complete

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// The software bundled into the app with its licenses, below the text of the license page (content/license.md):
+// The software bundled into the app with its licenses, below the text of the licenses page (content/licenses.md):
 // third-party-licenses.json, written by Vite when the app is built (build.license in vite.config.ts), so it lists
-// exactly what the build contains. Loaded once, when the license page is first shown.
+// exactly what the build contains. Loaded once, when the licenses page is first shown.
 
 import { BASE } from "./router";
 

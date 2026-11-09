@@ -10,7 +10,7 @@ import { Downloads, fmtBytes, profileCsv } from "./download";
 import { climOf, fmtCycle, fmtMonth, Labels } from "./labels";
 import { showThirdPartyLicenses } from "./licenses";
 import { currentHour, loading, PANELS, Renderer } from "./render";
-import { BASE, isLicensePage, type Mode, parseLog, parseUrl, toUrl, type ViewRequest, viewLink } from "./router";
+import { BASE, isLicensesPage, type Mode, parseLog, parseUrl, toUrl, type ViewRequest, viewLink } from "./router";
 import { type App, resolve, type State, Store } from "./state";
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -113,22 +113,42 @@ function setupStickyControls() {
   phone.addEventListener("change", update);
 }
 
-/** The license page (content/license.md, /license) instead of the panels and their footer (the keys), or the panels;
+/** The licenses page (content/licenses.md, /licenses) instead of the panels and their footer (the keys), or the panels;
  * the tab bar stays. The tabs of the panels are selected by the renderer. */
-function showLicense(on: boolean) {
-  $("license-page").hidden = !on;
+function showLicenses(on: boolean) {
+  $("licenses-page").hidden = !on;
   document.querySelector<HTMLElement>("main.layout")!.hidden = on;
   document.querySelector<HTMLElement>(".footer")!.hidden = on;
   if (!on) return;
   for (const b of $("mode-tabs").querySelectorAll("button"))
-    b.setAttribute("aria-selected", String(b.dataset.page === "license"));
+    b.setAttribute("aria-selected", String(b.dataset.page === "licenses"));
   void showThirdPartyLicenses($("third-party"));
 }
-const licenseShown = () => !$("license-page").hidden;
+const licensesShown = () => !$("licenses-page").hidden;
+
+/** The details of the data shown (#info) in a popup (native popover: closes on Esc and a click outside), placed below
+ * its (i) button, right-aligned with it and within the window. */
+function setupInfoPopover() {
+  const button = $("info-button");
+  const pop = $("info-popover");
+  pop.addEventListener("toggle", (e) => {
+    const open = (e as ToggleEvent).newState === "open";
+    button.setAttribute("aria-expanded", String(open));
+    if (!open) return;
+    const b = button.getBoundingClientRect();
+    const left = Math.min(Math.max(8, b.right - pop.offsetWidth), innerWidth - pop.offsetWidth - 8);
+    const below = b.bottom + 6 + pop.offsetHeight <= innerHeight - 8;
+    pop.style.left = `${left}px`;
+    pop.style.top = `${below ? b.bottom + 6 : Math.max(8, b.top - 6 - pop.offsetHeight)}px`;
+  });
+  // Fixed in the window: closed when the page scrolls away from the button
+  addEventListener("scroll", () => pop.matches(":popover-open") && pop.hidePopover(), { passive: true });
+}
 
 async function main() {
   setupTheme();
-  showLicense(isLicensePage());
+  setupInfoPopover();
+  showLicenses(isLicensesPage());
   const config = await loadConfig();
   setupDisclaimer();
   setupStickyControls();
@@ -283,9 +303,9 @@ async function main() {
     b.addEventListener("click", () => store.set({ diurnalKind: b.dataset.kind as State["diurnalKind"] }));
   for (const b of $("mode-tabs").querySelectorAll<HTMLButtonElement>("button[data-mode]"))
     b.addEventListener("click", () => void openMode(b.dataset.mode as Mode));
-  $("mode-tabs").querySelector("[data-page=license]")!.addEventListener("click", () => {
-    if (licenseShown()) return;
-    history.pushState(null, "", `${BASE}license`);
+  $("mode-tabs").querySelector("[data-page=licenses]")!.addEventListener("click", () => {
+    if (licensesShown()) return;
+    history.pushState(null, "", `${BASE}licenses`);
     route();
   });
   for (const b of $("period").querySelectorAll<HTMLButtonElement>("button"))
@@ -311,7 +331,7 @@ async function main() {
    * it; moving through the times, heights and places is not. `replace`: never a new entry (the URL asked for the view). */
   let following = false;
   const syncUrl = (replace = following) => {
-    if (licenseShown()) return; // the URL stays /license, the panels behind it follow
+    if (licensesShown()) return; // the URL stays /licenses, the panels behind it follow
     const { zi, cell } = fallback(app.data);
     const url = new URL(toUrl(st(), app.data, { zi, cell, log: labels.logDefault }), location.origin);
     const page = (u: { pathname: string; search: string }) => {
@@ -365,10 +385,10 @@ async function main() {
     if (mode === st().mode || (mode === "climatology" && !climUrl)) return;
     await loading(PANELS, switchModeTo(mode));
   }
-  /** A tab of the panels: from the license page back to the panels as they were left, then to `mode`. */
+  /** A tab of the panels: from the licenses page back to the panels as they were left, then to `mode`. */
   async function openMode(mode: Mode) {
-    if (licenseShown()) {
-      showLicense(false);
+    if (licensesShown()) {
+      showLicenses(false);
       render.controls();
       if (mode === st().mode || (mode === "climatology" && !climUrl)) return syncUrl();
     }
@@ -420,11 +440,11 @@ async function main() {
     syncUrl(true);
     if (app.firstStep !== before) void next.loadAll(r.step, app.firstStep);
   }
-  /** Show the page of the URL: the license, or the panels with the view it asks for. */
+  /** Show the page of the URL: the licenses, or the panels with the view it asks for. */
   function route() {
-    const license = isLicensePage();
-    showLicense(license);
-    if (license) return scrollTo(0, 0);
+    const licenses = isLicensesPage();
+    showLicenses(licenses);
+    if (licenses) return scrollTo(0, 0);
     render.controls();
     void followUrl();
   }
@@ -434,10 +454,17 @@ async function main() {
     if (location.hash) history.replaceState(null, "", BASE);
     route();
   });
-  // Links to views in the notes: without loading the page again
+  // Links to views in the notes: without loading the page again. Links within the page (footnotes): scrolled to, the URL
+  // stays (a # in the URL would lead to the landing page, see popstate)
   document.addEventListener("click", (e) => {
     const a = (e.target as Element).closest?.("a[href]");
-    const target = a && viewLink(a.getAttribute("href")!);
+    const href = a?.getAttribute("href") ?? "";
+    if (href.startsWith("#") && href.length > 1) {
+      e.preventDefault();
+      document.getElementById(decodeURIComponent(href.slice(1)))?.scrollIntoView({ block: "center" });
+      return;
+    }
+    const target = a && viewLink(href);
     if (!target || e.ctrlKey || e.metaKey || e.shiftKey) return;
     e.preventDefault();
     history.pushState(null, "", target);
@@ -446,7 +473,7 @@ async function main() {
 
   addEventListener("keydown", (e) => {
     const t = e.target as HTMLElement;
-    if (downloads.isOpen || licenseShown()) return;
+    if (downloads.isOpen || licensesShown()) return;
     if (t.tagName === "SELECT" || (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "checkbox")) return;
     const s = st();
     const n = app.data.times.length;

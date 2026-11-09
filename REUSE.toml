@@ -21,3 +21,10 @@ path = [
 ]
 SPDX-FileCopyrightText = "2026 Maximilian Pierzyna"
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# The GitHub mark (Octicons mark-github-16, https://github.com/primer/octicons), unchanged: before the links to the
+# OTProf repositories in the notes (style.css)
+[[annotations]]
+path = "web/src/github-mark.svg"
+SPDX-FileCopyrightText = "2026 GitHub Inc."
+SPDX-License-Identifier = "MIT"

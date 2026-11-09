@@ -17,7 +17,6 @@ data/
     meta.json                grid, heights, lead times, variables, files
     lcn2_f000.bin ...        binary arrays (one file per lead time for variables with heights)
     r0.bin, lsi2.bin         binary arrays (all lead times in one file for variables without heights)
-    notes.md                 optional notes for this cycle (see meta.json "notes")
     otprof-ui_<cycle>_EXPERIMENTAL.nc   optional, the forecast as NetCDF for download (see meta.json "download")
   climatology/               optional climatology (format otprof-ui-clim/1, see below)
 ```
@@ -48,7 +47,7 @@ data/
   "lon": [2.75, 3.0],
   "z_agl": [8.0, 26.0],
   "info": {"Model": "SQF-H (wrf_pl)", "Inputs": "GFS 0.25°", "Correction": "nl-oQM"},
-  "notes": "notes.md",
+  "notes": "A note on this cycle, shown in the app.",
   "download": {"file": "otprof-ui_2026102300_EXPERIMENTAL.nc", "bytes": 6844088},
   "variables": {
     "lcn2": {
@@ -76,7 +75,7 @@ data/
 | `lat`, `lon` | cell centres [degrees north / east], increasing. Any (also irregular) spacing; cell edges are the midpoints. |
 | `z_agl` | heights [m above ground], increasing. Needed if any variable has the dimension `z`. |
 | `info` | optional, shown as key-value pairs in the app. |
-| `notes` | optional, file name of the markdown notes of this cycle, shown after the global notes. |
+| `notes` | optional, notes on this cycle as plain text (paragraphs separated by blank lines), shown below the text of the forecast (`web/content/forecast.md`). |
 | `download` | optional, a file of this cycle the app offers for download (`file`, size in `bytes`), after a disclaimer. The forecast pipeline writes the forecast as CF NetCDF: `lcn2` (time, z, lat, lon), `r0`, `lsi2` (time, lat, lon), float32, compressed, lcn2 rounded to 0.001, licence CC BY-SA 4.0, with the credit of the GFS data and the references in the global attributes `acknowledgement` and `references`. |
 | `variables` | the fields. The app shows them in this order. |
 

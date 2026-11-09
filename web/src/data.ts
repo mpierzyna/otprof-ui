@@ -45,7 +45,7 @@ interface GridMeta {
   lon: number[];
   z_agl?: number[];
   info?: Record<string, string>;
-  notes?: string;
+  notes?: string; // plain text, paragraphs separated by blank lines
   variables: Record<string, VarMeta>;
 }
 

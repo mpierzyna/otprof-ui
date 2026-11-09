@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <nav id="mode-tabs" class="tabs" role="tablist" aria-label="View">
         <button type="button" role="tab" data-mode="forecast">Live forecast</button>
         <button type="button" role="tab" data-mode="climatology" hidden>Climatology</button>
-        <button type="button" role="tab" data-page="license" class="tab-aside">Licenses</button>
+        <button type="button" role="tab" data-page="licenses" class="tab-aside">Licenses</button>
       </nav>
       <div id="progress" class="progress" role="progressbar" aria-label="Loading" hidden><div></div></div>
     </div>
@@ -188,20 +188,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
       </div>
 
-      <section class="card notes-panel" aria-label="Notes">
+      <section class="card notes-panel" aria-labelledby="notes-title">
         <article id="notes" class="markdown">
-          <!--content:about-->
+          <div class="notes-head">
+            <h2 id="notes-title">What am I seeing?</h2>
+            <button id="info-button" class="info-button" type="button" popovertarget="info-popover" title="Details of the data shown" aria-label="Details of the data shown">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><!--icon:info--></svg>
+            </button>
+          </div>
           <div id="notes-live"><!--content:forecast--></div>
           <div id="notes-clim" hidden><!--content:climatology--></div>
           <div id="notes-data"></div>
+          <!--content:about-->
         </article>
-        <dl id="info" class="info"></dl>
+        <div id="info-popover" class="info-popover" popover aria-labelledby="info-title">
+          <h3 id="info-title">Details</h3>
+          <dl id="info" class="info"></dl>
+        </div>
       </section>
     </main>
 
-    <main id="license-page" class="page" hidden>
+    <main id="licenses-page" class="page" hidden>
       <article class="card markdown page-text">
-        <!--content:license-->
+        <!--content:licenses-->
         <section id="third-party" aria-label="Third-party software"></section>
       </article>
     </main>

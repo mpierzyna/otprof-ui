@@ -32,7 +32,7 @@ export function profileCsv(c: Climatology, name: string, step: number, cell: num
   ]);
   const comments = [
     about,
-    `License: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), see ${location.origin}${BASE}license`,
+    `License: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), see ${location.origin}${BASE}licenses`,
     ...(c.meta.acknowledgement ? [c.meta.acknowledgement] : []),
   ].map((line) => `# ${line}`);
   return `${[...comments, ...[header, ...rows].map((row) => row.join(","))].join("\n")}\n`;
