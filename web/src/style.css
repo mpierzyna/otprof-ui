@@ -1580,7 +1580,13 @@ button.filter-chip:disabled {
   color: var(--text-2);
 }
 .markdown .footnotes ol {
-  padding-left: 20px;
+  padding-left: 1.25em;
+}
+
+/* Lists in the texts: room for the bullet or number only (the browser's 40 px take too much of a narrow column) */
+.markdown ul,
+.markdown ol {
+  padding-left: 1.25em;
 }
 
 /* Notes */
