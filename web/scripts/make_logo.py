@@ -11,7 +11,8 @@ theme, magma on dark for the dark one.
 
 Writes logo-light.svg and logo-dark.svg (the header, per theme of the app), favicon.svg (both, switched by the
 system's colour scheme: the browser tab does not know the app's theme) and favicon.png (light, for browsers without
-SVG favicons). Run again only to change the design (the files are committed), from pipeline/:
+SVG favicons), and preview.png (light, square and without the rounded tile: the image of link previews, as in
+Slack or WhatsApp, which round it themselves). Run again only to change the design (the files are committed), from pipeline/:
 
     uv run --with matplotlib python ../web/scripts/make_logo.py [<web data dir>]
 """
@@ -67,26 +68,29 @@ def load_bands() -> tuple[np.ndarray, dict[str, np.ndarray]]:
     return t, bands
 
 
-def draw(t: np.ndarray, bands: dict[str, np.ndarray], colours: dict[str, str]) -> plt.Figure:
-    """The tile, 1 inch (72 pt) square: rounded background, the two ranges, the median clipped to the outer range."""
-    fig = plt.figure(figsize=(1, 1))
-    fig.patch.set_alpha(0)
+def draw(t: np.ndarray, bands: dict[str, np.ndarray], colours: dict[str, str], tile: bool = True) -> plt.Figure:
+    """The tile, 1 inch (72 pt) square: rounded background (or, without `tile`, the whole square), the two ranges, the
+    median clipped to the outer range."""
+    fig = plt.figure(figsize=(1, 1), facecolor=colours["bg"])
+    if tile:
+        fig.patch.set_alpha(0)
     ax = fig.add_axes((0, 0, 1, 1))
     ax.set_axis_off()
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     inset = 0.5 / 72  # half the edge line: the tile stays within the image
-    ax.add_patch(
-        FancyBboxPatch(
-            (inset, inset),
-            1 - 2 * inset,
-            1 - 2 * inset,
-            boxstyle=f"round,pad=0,rounding_size={RADIUS}",
-            facecolor=colours["bg"],
-            edgecolor=colours["edge"],
-            linewidth=1,
+    if tile:
+        ax.add_patch(
+            FancyBboxPatch(
+                (inset, inset),
+                1 - 2 * inset,
+                1 - 2 * inset,
+                boxstyle=f"round,pad=0,rounding_size={RADIUS}",
+                facecolor=colours["bg"],
+                edgecolor=colours["edge"],
+                linewidth=1,
+            )
         )
-    )
     lo, hi = bands["p5"].min(), bands["p95"].max()
     x = lambda v: MARGIN + (v - lo) / (hi - lo) * (1 - 2 * MARGIN)
     y = MARGIN + (t - t[0]) / (t[-1] - t[0]) * (1 - 2 * MARGIN)
@@ -131,5 +135,8 @@ if __name__ == "__main__":
             fig.savefig(PUBLIC / "favicon.png", dpi=64, transparent=True)  # 64 px
         plt.close(fig)
     (PUBLIC / "favicon.svg").write_text(combine(svgs))
-    for f in ("logo-light.svg", "logo-dark.svg", "favicon.svg", "favicon.png"):
+    fig = draw(t, bands, SCHEMES["light"], tile=False)
+    fig.savefig(PUBLIC / "preview.png", dpi=512)  # 512 px: large enough for every app, small to download
+    plt.close(fig)
+    for f in ("logo-light.svg", "logo-dark.svg", "favicon.svg", "favicon.png", "preview.png"):
         print(f, (PUBLIC / f).stat().st_size, "bytes")

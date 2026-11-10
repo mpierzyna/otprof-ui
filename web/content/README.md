@@ -13,8 +13,8 @@ literal dollar sign: `\$`.
 
 | file | shown |
 |---|---|
-| `title.md` | the title (inline markdown; plain text in the browser tab) |
-| `subtitle.md` | below the title (inline markdown) |
+| `title.md` | the title (inline markdown; plain text in the browser tab and link previews) |
+| `subtitle.md` | below the title (inline markdown; plain text as the description of the page in link previews and search results) |
 | `disclaimer.md` | the callout above the panels and in the download dialog; its first heading is the callout's title |
 | `about.md` | the notes card ("What am I seeing?"), last: the general part |
 | `forecast.md` | the notes card in the forecast, first |

@@ -127,6 +127,13 @@ function content(): Plugin {
   };
 }
 
+// Where the app is online, with OTPROF_BASE: link previews (Slack, WhatsApp, ...) need absolute URLs (index.html,
+// %SITE_URL%)
+const SITE_URL = new URL(process.env.OTPROF_BASE ?? "/", process.env.OTPROF_URL ?? "https://otprof.mpier.eu").href;
+function site(): Plugin {
+  return { name: "site", transformIndexHtml: { order: "pre", handler: (html) => html.replaceAll("%SITE_URL%", SITE_URL) } };
+}
+
 // The app has paths of its own (/forecast/.., /climatology/.., /licenses), so its files have absolute URLs: it is served from the root
 // of the web server, or from OTPROF_BASE (e.g. /otprof/, then adjust the routes in nginx.conf too).
 // Dev server on another interface (e.g. to open it on a phone):  npm run dev -- --host <ip>
@@ -136,5 +143,5 @@ export default defineConfig({
   build: { chunkSizeWarningLimit: 1500, license: { fileName: THIRD_PARTY } },
   server: { port: 5173, strictPort: true },
   preview: { port: 4173, strictPort: true },
-  plugins: [devData(), devLicenses(), content()],
+  plugins: [devData(), devLicenses(), site(), content()],
 });

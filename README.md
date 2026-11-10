@@ -122,7 +122,8 @@ To test the image locally with the pipelines' data: link or copy `pipeline/data/
 
 The app has paths of its own (`/forecast/..`, `/climatology/..`, `/licenses`), which the web server answers with
 `index.html` (`nginx.conf`), so it is served from the root of its host. For a subdirectory: build with
-`OTPROF_BASE=/otprof/` and adjust the routes in `nginx.conf`.
+`OTPROF_BASE=/otprof/` and adjust the routes in `nginx.conf`. Link previews (Slack, WhatsApp, ...) need the image's
+absolute URL: build with `OTPROF_URL=https://<host>` when the app is served from another host.
 
 ## Releases
 
